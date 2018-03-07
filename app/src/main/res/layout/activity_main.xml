@@ -8,11 +8,14 @@
     <com.shrikanthravi.collapsiblecalendarview.widget.CollapsibleCalendar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:primaryColor="@color/colorPrimary"
+        app:primaryColor="@color/google_red"
         app:textColor="@android:color/white"
-        app:selectedItem_textColor="@android:color/black"
+        app:selectedItem_textColor="@color/google_red"
         app:todayItem_textColor="@android:color/white"
         app:todayItem_background="@drawable/circle_white_stroke_background"
         app:selectedItem_background="@drawable/circle_white_solid_background"
+        app:buttonLeft_drawableTintColor="@android:color/white"
+        app:buttonRight_drawableTintColor="@android:color/white"
+        app:expandIconColor="@android:color/white"
         ></com.shrikanthravi.collapsiblecalendarview.widget.CollapsibleCalendar>
 </RelativeLayout>

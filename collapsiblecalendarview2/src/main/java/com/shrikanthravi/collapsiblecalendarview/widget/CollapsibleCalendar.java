@@ -25,6 +25,7 @@ import com.shrikanthravi.collapsiblecalendarview.R;
 import com.shrikanthravi.collapsiblecalendarview.data.CalendarAdapter;
 import com.shrikanthravi.collapsiblecalendarview.data.Day;
 import com.shrikanthravi.collapsiblecalendarview.data.Event;
+import com.shrikanthravi.collapsiblecalendarview.view.ExpandIconView;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -33,6 +34,8 @@ public class CollapsibleCalendar extends UICalendar {
 
     private CalendarAdapter mAdapter;
     private CalendarListener mListener;
+
+    private boolean expanded=true;
 
     private int mInitHeight = 0;
 
@@ -96,6 +99,23 @@ public class CollapsibleCalendar extends UICalendar {
                 nextWeek();
             }
         });
+
+        expandIconView.setState(ExpandIconView.LESS,true);
+
+        expandIconView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(expanded){
+                    collapse(400);
+                }
+                else{
+                    expand(400);
+                }
+                expanded = !expanded;
+
+            }
+        });
+
     }
 
     @Override
@@ -432,6 +452,8 @@ public class CollapsibleCalendar extends UICalendar {
             anim.setDuration(duration);
             startAnimation(anim);
         }
+
+        expandIconView.setState(ExpandIconView.MORE,true);
     }
 
     private void collapseTo(int index) {
@@ -497,6 +519,8 @@ public class CollapsibleCalendar extends UICalendar {
             anim.setDuration(duration);
             startAnimation(anim);
         }
+
+        expandIconView.setState(ExpandIconView.LESS,true);
     }
 
     public void select(Day day) {
@@ -540,5 +564,8 @@ public class CollapsibleCalendar extends UICalendar {
         // triggered when the week position are changed.
         void onWeekChange(int position);
     }
+
+
+
 }
 
