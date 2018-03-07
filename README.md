@@ -3,9 +3,96 @@ Collapsible CalendarView is a simple calendar view which can be collapsed and ex
 
 Still in Active development.
 
-<img src="https://drive.google.com/uc?id=1tOocqnS0pI6V07-JROte0Rx7vqMqFmPg" width="400" >
+<img src="https://drive.google.com/uc?id=1tOocqnS0pI6V07-JROte0Rx7vqMqFmPg" width="300" >
 
-## License
+### Version
+[![](https://jitpack.io/v/shrikanth7698/Collapsible-Calendar-View-Android.svg)](https://jitpack.io/#shrikanth7698/Collapsible-Calendar-View-Android)
+
+### Installation
+
+Add it in your root build.gradle at the end of repositories:
+```gradle
+allprojects {
+		repositories {
+			...
+			maven { url 'https://jitpack.io' }
+		}
+	}
+```
+
+Add the dependency in your app build.gradle
+```gradle
+dependencies {
+	        compile 'com.github.shrikanth7698:Collapsible-Calendar-View-Android:v0.0.1'
+	}
+```
+
+### Usage
+
+Drop the Collapsible CalendarView in your XML layout as is shown below:
+```xml
+    <com.shrikanthravi.collapsiblecalendarview.widget.CollapsibleCalendar
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:id="@+id/calendarView">
+    </com.shrikanthravi.collapsiblecalendarview.widget.CollapsibleCalendar>
+```
+
+And then in your Activity or fragment
+```java
+final CollapsibleCalendar collapsibleCalendar = findViewById(R.id.calendarView);
+        collapsibleCalendar.setCalendarListener(new CollapsibleCalendar.CalendarListener() {
+            @Override
+            public void onDaySelect() {
+                Day day = viewCalendar.getSelectedDay();
+                Log.i(getClass().getName(), "Selected Day: "
+                        + day.getYear() + "/" + (day.getMonth() + 1) + "/" + day.getDay());
+            }
+
+            @Override
+            public void onItemClick(View view) {
+
+            }
+
+            @Override
+            public void onDataUpdate() {
+
+            }
+
+            @Override
+            public void onMonthChange() {
+
+            }
+
+            @Override
+            public void onWeekChange(int i) {
+
+            }
+        });
+```
+
+### Customization
+
+
+```xml
+           <com.shrikanthravi.collapsiblecalendarview.widget.CollapsibleCalendar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:primaryColor="@color/google_red"
+                app:textColor="@android:color/white"
+                app:selectedItem_textColor="@color/google_red"
+                app:todayItem_textColor="@android:color/white"
+                app:todayItem_background="@drawable/circle_white_stroke_background"
+                app:selectedItem_background="@drawable/circle_white_solid_background"
+                app:buttonLeft_drawableTintColor="@android:color/white"
+                app:buttonRight_drawableTintColor="@android:color/white"
+                app:expandIconColor="@android:color/white">
+          </com.shrikanthravi.collapsiblecalendarview.widget.CollapsibleCalendar>
+```
+
+
+
+### License
 ```
 MIT License
 
