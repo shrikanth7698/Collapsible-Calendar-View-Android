@@ -10,22 +10,47 @@ Still in Active development.
 
 ### Installation
 
-Add it in your root build.gradle at the end of repositories:
-```gradle
-allprojects {
-		repositories {
-			...
-			maven { url 'https://jitpack.io' }
-		}
-	}
-```
+* **Gradle**
 
-Add the dependency in your app build.gradle
-```gradle
-dependencies {
-	        compile 'com.github.shrikanth7698:Collapsible-Calendar-View-Android:v0.0.1'
-	}
-```
+	Add it in your root build.gradle at the end of repositories:
+	```gradle
+	allprojects {
+			repositories {
+				...
+				maven { url 'https://jitpack.io' }
+			}
+		}
+	```
+
+	Add the dependency in your app build.gradle
+	```gradle
+	dependencies {
+			compile 'com.github.shrikanth7698:Collapsible-Calendar-View-Android:v0.0.1'
+		}
+	```
+
+* **Maven**
+
+	Add the JitPack repository to your build file
+	```gradle
+	<repositories>
+		<repository>
+		    <id>jitpack.io</id>
+		    <url>https://jitpack.io</url>
+		</repository>
+	</repositories>
+	```
+
+	Add the dependency
+	```gradle
+	<dependency>
+	    <groupId>com.github.User</groupId>
+	    <artifactId>Repo</artifactId>
+	    <version>Tag</version>
+	</dependency>
+	```
+
+
 
 ### Usage
 
