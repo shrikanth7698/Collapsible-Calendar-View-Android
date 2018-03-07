@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.shrikanthravi.collapsiblecalendarview.MainActivity">
-
-    <TextView
-        android:layout_width="wrap_content"
+    <com.shrikanthravi.collapsiblecalendarview.widget.CollapsibleCalendar
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-</android.support.constraint.ConstraintLayout>
+        app:primaryColor="@color/colorPrimary"
+        app:textColor="@android:color/white"
+        app:selectedItem_textColor="@android:color/black"
+        app:todayItem_textColor="@android:color/white"
+        app:todayItem_background="@drawable/circle_white_stroke_background"
+        app:selectedItem_background="@drawable/circle_white_solid_background"
+        ></com.shrikanthravi.collapsiblecalendarview.widget.CollapsibleCalendar>
+</RelativeLayout>

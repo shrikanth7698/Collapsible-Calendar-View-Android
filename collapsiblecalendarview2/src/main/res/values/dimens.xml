@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- title bar -->
+    <dimen name="title_bar_button_width">36dp</dimen>
+    <dimen name="title_bar_button_height">36dp</dimen>
+
+    <!-- day -->
+    <dimen name="day_circle_width">24dp</dimen>
+    <dimen name="day_circle_height">24dp</dimen>
+    <dimen name="day_circle_radius">120dp</dimen>
+    <dimen name="day_circle_stroke_width">1dp</dimen>
+
+</resources>
