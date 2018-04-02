@@ -1,4 +1,6 @@
 # Collapsible-Calendar-View-Android
+[![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](https://forthebadge.com)
+
 Collapsible CalendarView is a simple calendar view which can be collapsed and expanded to save space.
 
 Still in Active development.
