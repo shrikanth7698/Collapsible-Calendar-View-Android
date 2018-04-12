@@ -1,13 +1,12 @@
-# Collapsible-Calendar-View-Android
+![alt text](https://drive.google.com/uc?id=1LsPbybVTJfcFFL-4_BBJbvt5h9WShLI2)
+
 [![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](https://forthebadge.com)
 
 <a href='https://ko-fi.com/O5O2BPL1' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://az743702.vo.msecnd.net/cdn/kofi2.png?v=0' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
 
-Collapsible CalendarView is a simple calendar view which can be collapsed and expanded to save space.
 
-Still in Active development.
+#### Still in Active development.
 
-<img src="https://drive.google.com/uc?id=1tOocqnS0pI6V07-JROte0Rx7vqMqFmPg" width="300" >
 
 [![Android Arsenal]( https://img.shields.io/badge/Android%20Arsenal-Collapsible--Calendar--View--Android-green.svg?style=flat )]( https://android-arsenal.com/details/1/6829 )
 
