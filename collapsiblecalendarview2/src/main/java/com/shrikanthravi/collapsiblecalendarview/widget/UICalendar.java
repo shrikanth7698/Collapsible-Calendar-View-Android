@@ -59,7 +59,7 @@ public abstract class UICalendar extends LinearLayout {
     // Attributes
     private boolean mShowWeek = true;
     private int mFirstDayOfWeek = SUNDAY;
-    private int mState = STATE_EXPANDED;
+    private int mState = STATE_COLLAPSED;
 
     private int mTextColor = Color.BLACK;
     private int mPrimaryColor = Color.WHITE;
@@ -125,6 +125,8 @@ public abstract class UICalendar extends LinearLayout {
         mBtnPrevWeek         = rootView.findViewById(R.id.btn_prev_week);
         mBtnNextWeek         = rootView.findViewById(R.id.btn_next_week);
         expandIconView       = rootView.findViewById(R.id.expandIcon);
+
+
 
 
     }

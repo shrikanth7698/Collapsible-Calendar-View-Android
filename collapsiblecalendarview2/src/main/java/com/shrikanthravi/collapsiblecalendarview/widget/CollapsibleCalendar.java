@@ -35,7 +35,7 @@ public class CollapsibleCalendar extends UICalendar {
     private CalendarAdapter mAdapter;
     private CalendarListener mListener;
 
-    private boolean expanded=true;
+    private boolean expanded=false;
 
     private int mInitHeight = 0;
 
@@ -68,7 +68,6 @@ public class CollapsibleCalendar extends UICalendar {
 
 
 
-        setStateWithUpdateUI(getState());
 
         // bind events
 
@@ -100,7 +99,8 @@ public class CollapsibleCalendar extends UICalendar {
             }
         });
 
-        expandIconView.setState(ExpandIconView.LESS,true);
+        expandIconView.setState(ExpandIconView.MORE,true);
+
 
         expandIconView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,6 +115,15 @@ public class CollapsibleCalendar extends UICalendar {
 
             }
         });
+
+        this.post(new Runnable() {
+            @Override
+            public void run() {
+                collapseTo(mCurrentWeekIndex);
+            }
+        });
+
+
 
     }
 
@@ -408,6 +417,7 @@ public class CollapsibleCalendar extends UICalendar {
     }
 
     public void collapse(int duration) {
+
         if (getState() == STATE_EXPANDED) {
             setState(STATE_PROCESSING);
 
