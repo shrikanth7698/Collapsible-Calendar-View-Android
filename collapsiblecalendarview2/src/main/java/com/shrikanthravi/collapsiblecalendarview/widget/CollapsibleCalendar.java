@@ -111,8 +111,6 @@ public class CollapsibleCalendar extends UICalendar {
                 else{
                     expand(400);
                 }
-                expanded = !expanded;
-
             }
         });
 
@@ -541,6 +539,17 @@ public class CollapsibleCalendar extends UICalendar {
         }
 
         expandIconView.setState(ExpandIconView.LESS,true);
+    }
+
+    @Override
+    public void setState(int state) {
+        super.setState(state);
+        if(state == STATE_COLLAPSED) {
+            expanded = false;
+        }
+        if(state == STATE_EXPANDED) {
+            expanded = true;
+        }
     }
 
     public void select(Day day) {
