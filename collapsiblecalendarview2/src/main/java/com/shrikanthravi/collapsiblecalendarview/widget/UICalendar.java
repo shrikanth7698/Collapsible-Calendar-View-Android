@@ -82,6 +82,7 @@ public abstract class UICalendar extends LinearLayout {
     private int mButtonRightDrawableTintColor=Color.BLACK;
 
     private int mExpandIconColor = Color.BLACK;
+    private int mEventColor=Color.BLACK;
 
     public UICalendar(Context context) {
         this(context, null);
@@ -140,6 +141,9 @@ public abstract class UICalendar extends LinearLayout {
 
         setTextColor(attrs.getColor(R.styleable.UICalendar_textColor, mTextColor));
         setPrimaryColor(attrs.getColor(R.styleable.UICalendar_primaryColor, mPrimaryColor));
+
+        setEventColor(attrs.getColor(R.styleable.UICalendar_eventColor, mEventColor));
+
 
         setTodayItemTextColor(attrs.getColor(
                 R.styleable.UICalendar_todayItem_textColor, mTodayItemTextColor));
@@ -263,6 +267,15 @@ public abstract class UICalendar extends LinearLayout {
         redraw();
 
         mLayoutRoot.setBackgroundColor(mPrimaryColor);
+    }
+
+    private void setEventColor(int eventColor) {
+        this.mEventColor = eventColor;
+        redraw();
+
+    }
+    public int getEventColor() {
+        return mEventColor;
     }
 
     public int getTodayItemTextColor() {

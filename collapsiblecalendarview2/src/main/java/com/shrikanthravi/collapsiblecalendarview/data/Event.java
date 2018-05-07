@@ -8,11 +8,19 @@ public class Event {
     private int mYear;
     private int mMonth;
     private int mDay;
+    private int mColor;
 
     public Event(int year, int month, int day){
         this.mYear = year;
         this.mMonth = month;
         this.mDay = day;
+    }
+
+    public Event(int year, int month, int day, int color){
+        this.mYear = year;
+        this.mMonth = month;
+        this.mDay = day;
+        this.mColor=color;
     }
 
     public int getMonth(){
@@ -27,4 +35,7 @@ public class Event {
         return mDay;
     }
 
+    public int getColor() {
+        return mColor;
+    }
 }
