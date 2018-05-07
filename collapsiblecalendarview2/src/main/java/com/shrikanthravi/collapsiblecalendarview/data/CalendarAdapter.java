@@ -1,6 +1,8 @@
 package com.shrikanthravi.collapsiblecalendarview.data;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -125,6 +127,7 @@ public class CalendarAdapter {
                         && day.getMonth() == event.getMonth()
                         && day.getDay() == event.getDay()) {
                     imgEventTag.setVisibility(View.VISIBLE);
+                    imgEventTag.setColorFilter(event.getColor(),PorterDuff.Mode.SRC_ATOP);
                 }
             }
 

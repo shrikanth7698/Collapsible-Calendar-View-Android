@@ -306,7 +306,13 @@ public class CollapsibleCalendar extends UICalendar {
     }
 
     public void addEventTag(int numYear, int numMonth, int numDay) {
-        mAdapter.addEvent(new Event(numYear, numMonth, numDay));
+        mAdapter.addEvent(new Event(numYear, numMonth, numDay,getEventColor()));
+
+        reload();
+    }
+
+    public void addEventTag(int numYear, int numMonth, int numDay,int color) {
+        mAdapter.addEvent(new Event(numYear, numMonth, numDay,color));
 
         reload();
     }
