@@ -3,13 +3,14 @@ package com.shrikanthravi.collapsiblecalendarview.view;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.view.View;
 import android.widget.ScrollView;
 
 /**
  * Created by shrikanthravi on 07/03/18.
  */
 
-public class LockScrollView extends ScrollView {
+public class LockScrollView extends ScrollView  {
     public LockScrollView(Context context) {
         super(context);
     }
@@ -24,10 +25,12 @@ public class LockScrollView extends ScrollView {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
+        super.onInterceptTouchEvent(ev);
         return false;
     }
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
+        super.onTouchEvent(ev);
         return false;
     }
 }

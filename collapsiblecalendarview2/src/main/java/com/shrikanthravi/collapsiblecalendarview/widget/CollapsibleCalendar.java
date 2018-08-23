@@ -25,6 +25,7 @@ import com.shrikanthravi.collapsiblecalendarview.R;
 import com.shrikanthravi.collapsiblecalendarview.data.CalendarAdapter;
 import com.shrikanthravi.collapsiblecalendarview.data.Day;
 import com.shrikanthravi.collapsiblecalendarview.data.Event;
+import com.shrikanthravi.collapsiblecalendarview.listener.OnSwipeTouchListener;
 import com.shrikanthravi.collapsiblecalendarview.view.ExpandIconView;
 
 import java.text.SimpleDateFormat;
@@ -71,7 +72,7 @@ public class CollapsibleCalendar extends UICalendar {
 
 
         // bind events
-
+        mLayoutRoot.setOnTouchListener(getSwipeTouchListener());
         mBtnPrevMonth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -124,6 +125,33 @@ public class CollapsibleCalendar extends UICalendar {
 
 
 
+    }
+
+    private OnSwipeTouchListener getSwipeTouchListener() {
+        return new OnSwipeTouchListener(getContext()) {
+            public void onSwipeTop() {
+                collapse(400);
+
+            }
+            public void onSwipeLeft() {
+                if (getState() == STATE_COLLAPSED)
+                    nextWeek();
+                else if (getState() == STATE_EXPANDED)
+                    nextMonth();
+            }
+            public void onSwipeRight() {
+                if (getState() == STATE_COLLAPSED) {
+                    prevWeek();
+                }
+                else if (getState() == STATE_EXPANDED) {
+                    prevMonth();
+                }
+            }
+            public void onSwipeBottom() {
+                expand(400);
+            }
+
+        };
     }
 
     @Override
@@ -237,6 +265,7 @@ public class CollapsibleCalendar extends UICalendar {
                         0,
                         ViewGroup.LayoutParams.WRAP_CONTENT,
                         1));
+                view.setOnTouchListener(getSwipeTouchListener());
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
