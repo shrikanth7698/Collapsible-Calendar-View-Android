@@ -61,9 +61,10 @@ public class CollapsibleCalendar extends UICalendar {
         super.init(context);
 
 
-
+            int size=getEventDotSize();
             Calendar cal = Calendar.getInstance();
             CalendarAdapter adapter = new CalendarAdapter(context, cal);
+            adapter.setEventDotSize(getEventDotSize());
             setAdapter(adapter);
 
 
@@ -182,6 +183,7 @@ public class CollapsibleCalendar extends UICalendar {
     @Override
     protected void reload() {
         if (mAdapter != null) {
+            mAdapter.setEventDotSize(getEventDotSize());
             mAdapter.refresh();
 
             // reset UI

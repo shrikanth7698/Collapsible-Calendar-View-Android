@@ -38,6 +38,8 @@ public abstract class UICalendar extends LinearLayout {
     public static final int STATE_EXPANDED   = 0;
     public static final int STATE_COLLAPSED  = 1;
     public static final int STATE_PROCESSING = 2;
+    public static final int EVENT_DOT_BIG = 0;
+    public static final int EVENT_DOT_SMALL = 1;
 
     protected Context mContext;
     protected LayoutInflater mInflater;
@@ -83,6 +85,8 @@ public abstract class UICalendar extends LinearLayout {
 
     private int mExpandIconColor = Color.BLACK;
     private int mEventColor=Color.BLACK;
+
+    private int mEventDotSize=EVENT_DOT_BIG;
 
     public UICalendar(Context context) {
         this(context, null);
@@ -143,7 +147,7 @@ public abstract class UICalendar extends LinearLayout {
         setPrimaryColor(attrs.getColor(R.styleable.UICalendar_primaryColor, mPrimaryColor));
 
         setEventColor(attrs.getColor(R.styleable.UICalendar_eventColor, mEventColor));
-
+        setEventDotSize(attrs.getInt(R.styleable.UICalendar_eventDotSize, mEventDotSize));
 
         setTodayItemTextColor(attrs.getColor(
                 R.styleable.UICalendar_todayItem_textColor, mTodayItemTextColor));
@@ -272,6 +276,17 @@ public abstract class UICalendar extends LinearLayout {
     private void setEventColor(int eventColor) {
         this.mEventColor = eventColor;
         redraw();
+
+    }
+
+    private void setEventDotSize(int eventDotSize) {
+        this.mEventDotSize = eventDotSize;
+        redraw();
+
+    }
+
+    public int getEventDotSize() {
+        return mEventDotSize;
 
     }
     public int getEventColor() {

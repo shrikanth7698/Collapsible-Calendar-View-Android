@@ -11,9 +11,12 @@
         android:id="@+id/txt_day"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+
+        android:layout_marginEnd="8dp"
         android:background="@android:color/transparent"
         android:gravity="center"
-
         android:paddingLeft="5dp"
         android:paddingTop="2dp"
         android:paddingRight="5dp"
@@ -22,22 +25,19 @@
         android:textSize="13sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Date" />
 
 
     <ImageView
         android:id="@+id/img_event_tag"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_width="8dp"
+        android:layout_height="8dp"
         android:src="@drawable/dot_icon"
-        tools:visibility="visible"
         android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_day" />
+        app:layout_constraintStart_toEndOf="@+id/txt_day"
+        app:layout_constraintTop_toTopOf="@+id/txt_day"
+        tools:visibility="visible" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
