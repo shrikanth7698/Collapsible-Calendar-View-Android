@@ -23,15 +23,15 @@ public class Event {
         this.mColor=color;
     }
 
-    public int getMonth(){
+    int getMonth(){
         return mMonth;
     }
 
-    public int getYear(){
+    int getYear(){
         return mYear;
     }
 
-    public int getDay(){
+    int getDay(){
         return mDay;
     }
 
