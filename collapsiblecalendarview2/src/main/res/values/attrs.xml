@@ -35,7 +35,10 @@
         <attr name="primaryColor" format="color" />
 
         <attr name="eventColor" format="color" />
-
+        <attr name="eventDotSize" format="enum">
+            <enum name="small" value="1" />
+            <enum name="big" value="0" />
+        </attr>
 
         <attr name="todayItem_textColor" format="color" />
         <attr name="todayItem_background" format="integer" />

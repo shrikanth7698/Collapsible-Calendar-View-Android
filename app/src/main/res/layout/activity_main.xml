@@ -19,5 +19,6 @@
         app:buttonRight_drawableTintColor="@android:color/white"
         app:expandIconColor="@android:color/white"
         app:eventColor="@android:color/white"
+        app:eventDotSize="small"
         ></com.shrikanthravi.collapsiblecalendarview.widget.CollapsibleCalendar>
 </RelativeLayout>
