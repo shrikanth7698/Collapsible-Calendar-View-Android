@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/CollapsibleCalendarView.iml" filepath="$PROJECT_DIR$/CollapsibleCalendarView.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Collapsible-Calendar-View-Android.iml" filepath="$PROJECT_DIR$/Collapsible-Calendar-View-Android.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/collapsiblecalendarview2/collapsiblecalendarview2.iml" filepath="$PROJECT_DIR$/collapsiblecalendarview2/collapsiblecalendarview2.iml" />
     </modules>

@@ -34,7 +34,7 @@ public class Day implements Parcelable{
 
 
 
-    public Day(Parcel in){
+    private Day(Parcel in){
         int[] data = new int[3];
         in.readIntArray(data);
         this.mYear = data[0];

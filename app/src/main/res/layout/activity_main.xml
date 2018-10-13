@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.shrikanthravi.collapsiblecalendarview.MainActivity">
+
     <com.shrikanthravi.collapsiblecalendarview.widget.CollapsibleCalendar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,6 +19,6 @@
         app:buttonLeft_drawableTintColor="@android:color/white"
         app:buttonRight_drawableTintColor="@android:color/white"
         app:expandIconColor="@android:color/white"
-        app:eventColor="@android:color/white"
-        ></com.shrikanthravi.collapsiblecalendarview.widget.CollapsibleCalendar>
+        app:eventColor="@android:color/white" />
+
 </RelativeLayout>

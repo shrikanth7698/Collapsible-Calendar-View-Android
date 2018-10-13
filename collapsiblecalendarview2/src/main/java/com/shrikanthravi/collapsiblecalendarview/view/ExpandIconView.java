@@ -58,7 +58,7 @@ public class ExpandIconView extends View {
             INTERMEDIATE
     })
     @Retention(RetentionPolicy.SOURCE)
-    public @interface State {
+    @interface State {
     }
 
     public static final int MORE = 0;
