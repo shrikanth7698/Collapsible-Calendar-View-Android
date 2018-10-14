@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.shrikanthravi.collapsiblecalendarview.R;
+import com.shrikanthravi.collapsiblecalendarview.widget.UICalendar;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -22,6 +23,7 @@ public class CalendarAdapter {
     private int mFirstDayOfWeek = 0;
     private Calendar mCal;
     private LayoutInflater mInflater;
+    private int mEventDotSize= UICalendar.EVENT_DOT_BIG;
 
     List<Day> mItemList = new ArrayList<>();
     List<View> mViewList = new ArrayList<>();
@@ -30,7 +32,6 @@ public class CalendarAdapter {
     public CalendarAdapter(Context context, Calendar cal) {
         this.mCal = (Calendar) cal.clone();
         this.mCal.set(Calendar.DAY_OF_MONTH, 1);
-
         mInflater = LayoutInflater.from(context);
 
         refresh();
@@ -51,6 +52,9 @@ public class CalendarAdapter {
 
     public void setFirstDayOfWeek(int firstDayOfWeek) {
         mFirstDayOfWeek = firstDayOfWeek;
+    }
+    public void setEventDotSize(int eventDotSize) {
+        mEventDotSize = eventDotSize;
     }
 
     public Calendar getCalendar() {
@@ -111,8 +115,12 @@ public class CalendarAdapter {
             }
 
             Day day = new Day(numYear, numMonth, numDay);
+            View view;
+            if(mEventDotSize==UICalendar.EVENT_DOT_SMALL)
+                 view = mInflater.inflate(R.layout.day_layout_small, null);
+            else
+                view = mInflater.inflate(R.layout.day_layout, null);
 
-            View view = mInflater.inflate(R.layout.day_layout, null);
             TextView txtDay = (TextView) view.findViewById(R.id.txt_day);
             ImageView imgEventTag = (ImageView) view.findViewById(R.id.img_event_tag);
 
