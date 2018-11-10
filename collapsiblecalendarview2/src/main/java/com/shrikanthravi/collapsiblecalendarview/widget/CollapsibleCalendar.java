@@ -27,6 +27,8 @@ import com.shrikanthravi.collapsiblecalendarview.view.ExpandIconView;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.format.DateTimeFormatter;
 
+import androidx.annotation.NonNull;
+
 public class CollapsibleCalendar extends UICalendar {
 
     private CalendarAdapter  mAdapter;
@@ -386,12 +388,12 @@ public class CollapsibleCalendar extends UICalendar {
         return getSelectedItem();
     }
 
-    public boolean isSelectedDay(LocalDate day) {
-        return day != null && day == getSelectedItem();
+    public boolean isSelectedDay(@NonNull LocalDate day) {
+        return day.equals(getSelectedItem());
     }
 
-    public boolean isToady(LocalDate day) {
-        return day == LocalDate.now();
+    public boolean isToady(@NonNull LocalDate day) {
+        return LocalDate.now().equals(day);
     }
 
     public int getSelectedItemPosition() {
