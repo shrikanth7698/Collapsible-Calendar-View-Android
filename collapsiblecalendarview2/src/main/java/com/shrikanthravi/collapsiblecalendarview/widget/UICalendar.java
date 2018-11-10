@@ -18,20 +18,12 @@ import com.shrikanthravi.collapsiblecalendarview.R;
 import com.shrikanthravi.collapsiblecalendarview.view.ExpandIconView;
 import com.shrikanthravi.collapsiblecalendarview.view.LockScrollView;
 
+import org.threeten.bp.DayOfWeek;
 import org.threeten.bp.LocalDate;
 
 
 public abstract class UICalendar extends LinearLayout {
 
-
-    // Day of Week
-    public static final int SUNDAY    = 0;
-    public static final int MONDAY    = 1;
-    public static final int TUESDAY   = 2;
-    public static final int WEDNESDAY = 3;
-    public static final int THURSDAY  = 4;
-    public static final int FRIDAY    = 5;
-    public static final int SATURDAY  = 6;
     // State
     public static final int STATE_EXPANDED   = 0;
     public static final int STATE_COLLAPSED  = 1;
@@ -57,9 +49,9 @@ public abstract class UICalendar extends LinearLayout {
     protected ExpandIconView expandIconView;
 
     // Attributes
-    private boolean mShowWeek = true;
-    private int mFirstDayOfWeek = SUNDAY;
-    private int mState = STATE_COLLAPSED;
+    private boolean   mShowWeek       = true;
+    private DayOfWeek mFirstDayOfWeek = DayOfWeek.SUNDAY;
+    private int       mState          = STATE_COLLAPSED;
 
     private int mTextColor = Color.BLACK;
     private int mPrimaryColor = Color.WHITE;
@@ -128,17 +120,14 @@ public abstract class UICalendar extends LinearLayout {
         mBtnPrevWeek         = rootView.findViewById(R.id.btn_prev_week);
         mBtnNextWeek         = rootView.findViewById(R.id.btn_next_week);
         expandIconView       = rootView.findViewById(R.id.expandIcon);
-
-
-
-
     }
 
     protected void setAttributes(TypedArray attrs) {
         // set attributes by the values from XML
         //setStyle(attrs.getInt(R.styleable.UICalendar_style, mStyle));
         setShowWeek(attrs.getBoolean(R.styleable.UICalendar_showWeek, mShowWeek));
-        setFirstDayOfWeek(attrs.getInt(R.styleable.UICalendar_firstDayOfWeek, mFirstDayOfWeek));
+        int dayOfWeekValue = attrs.getInt(R.styleable.UICalendar_firstDayOfWeek, mFirstDayOfWeek.getValue());
+        setFirstDayOfWeek(DayOfWeek.of(dayOfWeekValue));
         setState(attrs.getInt(R.styleable.UICalendar_state, mState));
 
         setTextColor(attrs.getColor(R.styleable.UICalendar_textColor, mTextColor));
@@ -223,11 +212,11 @@ public abstract class UICalendar extends LinearLayout {
         }
     }
 
-    public int getFirstDayOfWeek() {
+    public DayOfWeek getFirstDayOfWeek() {
         return mFirstDayOfWeek;
     }
 
-    public void setFirstDayOfWeek(int firstDayOfWeek) {
+    public void setFirstDayOfWeek(DayOfWeek firstDayOfWeek) {
         this.mFirstDayOfWeek = firstDayOfWeek;
         reload();
     }
@@ -327,18 +316,10 @@ public abstract class UICalendar extends LinearLayout {
         redraw();
     }
 
-    public Drawable getButtonLeftDrawable() {
-        return mButtonLeftDrawable;
-    }
-
     public void setButtonLeftDrawable(Drawable buttonLeftDrawable) {
         this.mButtonLeftDrawable = buttonLeftDrawable;
         mBtnPrevMonth.setImageDrawable(buttonLeftDrawable);
         mBtnPrevWeek.setImageDrawable(buttonLeftDrawable);
-    }
-
-    public Drawable getButtonRightDrawable() {
-        return mButtonRightDrawable;
     }
 
     public void setButtonRightDrawable(Drawable buttonRightDrawable) {

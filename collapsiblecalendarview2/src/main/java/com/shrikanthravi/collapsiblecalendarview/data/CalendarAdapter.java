@@ -1,7 +1,6 @@
 package com.shrikanthravi.collapsiblecalendarview.data;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,31 +10,31 @@ import android.widget.TextView;
 import com.shrikanthravi.collapsiblecalendarview.R;
 import com.shrikanthravi.collapsiblecalendarview.widget.UICalendar;
 
+import org.threeten.bp.DayOfWeek;
 import org.threeten.bp.LocalDate;
-import org.threeten.bp.LocalTime;
-import org.threeten.bp.Month;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
+
+import static org.threeten.bp.Month.DECEMBER;
+import static org.threeten.bp.Month.JANUARY;
 
 /**
  * Created by shrikanthravi on 06/03/18.
  */
 
 public class CalendarAdapter {
-    private int mFirstDayOfWeek = 0;
-    private Calendar mCal;
+    private DayOfWeek      mFirstDayOfWeek = DayOfWeek.MONDAY;
+    private LocalDate      mCal;
     private LayoutInflater mInflater;
-    private int mEventDotSize= UICalendar.EVENT_DOT_BIG;
+    private int            mEventDotSize   = UICalendar.EVENT_DOT_BIG;
 
-    List<LocalDate> mItemList  = new ArrayList<>();
-    List<View>      mViewList  = new ArrayList<>();
-    List<Event>     mEventList = new ArrayList<>();
+    private List<LocalDate> mItemList  = new ArrayList<>();
+    private List<View>      mViewList  = new ArrayList<>();
+    private List<Event>     mEventList = new ArrayList<>();
 
-    public CalendarAdapter(Context context, Calendar cal) {
-        this.mCal = (Calendar) cal.clone();
-        this.mCal.set(Calendar.DAY_OF_MONTH, 1);
+    public CalendarAdapter(Context context) {
+        this.mCal = LocalDate.now().withDayOfMonth(1);
         mInflater = LayoutInflater.from(context);
 
         refresh();
@@ -54,14 +53,27 @@ public class CalendarAdapter {
         return mViewList.get(position);
     }
 
-    public void setFirstDayOfWeek(int firstDayOfWeek) {
+    public void nextMonth() {
+        mCal = mCal.plusMonths(1);
+    }
+
+    public void previousMonth() {
+        mCal = mCal.minusMonths(1);
+    }
+
+    public void setDate(LocalDate date) {
+        mCal = date;
+    }
+
+    public void setFirstDayOfWeek(DayOfWeek firstDayOfWeek) {
         mFirstDayOfWeek = firstDayOfWeek;
     }
+
     public void setEventDotSize(int eventDotSize) {
         mEventDotSize = eventDotSize;
     }
 
-    public Calendar getCalendar() {
+    public LocalDate getCalendar() {
         return mCal;
     }
 
@@ -75,42 +87,41 @@ public class CalendarAdapter {
         mViewList.clear();
 
         // set calendar
-        int year = mCal.get(Calendar.YEAR);
-        int month = mCal.get(Calendar.MONTH);
+        int year = mCal.getYear();
+        int month = mCal.getMonthValue();
 
-        mCal.set(year, month, 1);
+        mCal = LocalDate.of(year, month, 1);
 
-        int lastDayOfMonth = mCal.getActualMaximum(Calendar.DAY_OF_MONTH);
-        int firstDayOfWeek = mCal.get(Calendar.DAY_OF_WEEK) - 1;
+        int lastDayOfMonth = mCal.lengthOfMonth();
+        DayOfWeek firstDayOfWeek = mCal.getDayOfWeek();
 
         // generate day list
-        int offset = 0 - (firstDayOfWeek - mFirstDayOfWeek) + 1;
-        int length = (int) Math.ceil((float) (lastDayOfMonth - offset + 1) / 7) * 7;
+        int offset = 0 - (firstDayOfWeek.getValue() - mFirstDayOfWeek.getValue());
+        if (offset > 0) offset += -7;
+        int length = (int) Math.ceil((float) (lastDayOfMonth - offset) / 7) * 7;
         for (int i = offset; i < length + offset; i++) {
             int numYear;
             int numMonth;
             int numDay;
 
-            Calendar tempCal = Calendar.getInstance();
             if (i <= 0) { // prev month
-                if (month == 0) {
+                if (month == JANUARY.getValue()) {
                     numYear = year - 1;
-                    numMonth = 11;
+                    numMonth = DECEMBER.getValue();
                 } else {
                     numYear = year;
                     numMonth = month - 1;
                 }
-                tempCal.set(numYear, numMonth, 1);
-                numDay = tempCal.getActualMaximum(Calendar.DAY_OF_MONTH) + i;
+                LocalDate tempCal = LocalDate.of(numYear, numMonth, 1);
+                numDay = tempCal.lengthOfMonth() + i;
             } else if (i > lastDayOfMonth) { // next month
-                if (month == 11) {
+                if (month == DECEMBER.getValue()) {
                     numYear = year + 1;
-                    numMonth = 0;
+                    numMonth = JANUARY.getValue();
                 } else {
                     numYear = year;
-                    numMonth = month + 1;
+                    numMonth = month;
                 }
-                tempCal.set(numYear, numMonth, 1);
                 numDay = i - lastDayOfMonth;
             } else {
                 numYear = year;
@@ -118,28 +129,27 @@ public class CalendarAdapter {
                 numDay = i;
             }
 
-            LocalDate day = LocalDate.of(numYear, numMonth + 1, numDay);
+            LocalDate day = LocalDate.of(numYear, numMonth, numDay);
             View view;
-            if(mEventDotSize==UICalendar.EVENT_DOT_SMALL)
-                 view = mInflater.inflate(R.layout.day_layout_small, null);
-            else
+            if (mEventDotSize == UICalendar.EVENT_DOT_SMALL) {
+                view = mInflater.inflate(R.layout.day_layout_small, null);
+            } else {
                 view = mInflater.inflate(R.layout.day_layout, null);
+            }
 
             TextView txtDay = view.findViewById(R.id.txt_day);
             ImageView imgEventTag = view.findViewById(R.id.img_event_tag);
 
             txtDay.setText(String.valueOf(day.getDayOfMonth()));
-            if (day.getMonthValue() -1 != mCal.get(Calendar.MONTH)) {
+            if (day.getMonth() != mCal.getMonth()) {
                 txtDay.setAlpha(0.3f);
             }
 
             for (int j = 0; j < mEventList.size(); j++) {
                 Event event = mEventList.get(j);
-                if (day.getYear() == event.getYear()
-                        && day.getMonthValue() == event.getMonth()
-                        && day.getDayOfMonth() == event.getDay()) {
+                if (day.equals(event.getDate())) {
                     imgEventTag.setVisibility(View.VISIBLE);
-                    imgEventTag.setColorFilter(event.getColor(),PorterDuff.Mode.SRC_ATOP);
+                    imgEventTag.setColorFilter(event.getColor(), PorterDuff.Mode.SRC_ATOP);
                 }
             }
 

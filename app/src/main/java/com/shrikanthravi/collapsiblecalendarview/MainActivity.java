@@ -8,7 +8,8 @@ import android.view.View;
 
 import com.shrikanthravi.collapsiblecalendarview.widget.CollapsibleCalendar;
 
-import java.util.Calendar;
+import org.threeten.bp.LocalDate;
+
 import java.util.GregorianCalendar;
 
 
@@ -22,10 +23,10 @@ public class MainActivity extends AppCompatActivity {
         getWindow().setStatusBarColor(getResources().getColor(R.color.google_red));
 
         CollapsibleCalendar collapsibleCalendar = findViewById(R.id.collapsibleCalendarView);
-        Calendar today=new GregorianCalendar();
-        collapsibleCalendar.addEventTag(today.get(Calendar.YEAR),today.get(Calendar.MONTH),today.get(Calendar.DAY_OF_MONTH));
-        today.add(Calendar.DATE,1);
-        collapsibleCalendar.addEventTag(today.get(Calendar.YEAR),today.get(Calendar.MONTH),today.get(Calendar.DAY_OF_MONTH),Color.BLUE);
+        LocalDate today = LocalDate.now();
+        collapsibleCalendar.addEventTag(today);
+        LocalDate tomorrow = today.plusDays(1);
+        collapsibleCalendar.addEventTag(tomorrow, Color.BLUE);
 
         Log.d("Testing date ", collapsibleCalendar.getSelectedDay().toString());
         collapsibleCalendar.setCalendarListener(new CollapsibleCalendar.CalendarListener() {
