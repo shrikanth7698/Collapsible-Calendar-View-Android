@@ -11,6 +11,10 @@ import android.widget.TextView;
 import com.shrikanthravi.collapsiblecalendarview.R;
 import com.shrikanthravi.collapsiblecalendarview.widget.UICalendar;
 
+import org.threeten.bp.LocalDate;
+import org.threeten.bp.LocalTime;
+import org.threeten.bp.Month;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -25,9 +29,9 @@ public class CalendarAdapter {
     private LayoutInflater mInflater;
     private int mEventDotSize= UICalendar.EVENT_DOT_BIG;
 
-    List<Day> mItemList = new ArrayList<>();
-    List<View> mViewList = new ArrayList<>();
-    List<Event> mEventList = new ArrayList<>();
+    List<LocalDate> mItemList  = new ArrayList<>();
+    List<View>      mViewList  = new ArrayList<>();
+    List<Event>     mEventList = new ArrayList<>();
 
     public CalendarAdapter(Context context, Calendar cal) {
         this.mCal = (Calendar) cal.clone();
@@ -42,7 +46,7 @@ public class CalendarAdapter {
         return mItemList.size();
     }
 
-    public Day getItem(int position) {
+    public LocalDate getItem(int position) {
         return mItemList.get(position);
     }
 
@@ -114,26 +118,26 @@ public class CalendarAdapter {
                 numDay = i;
             }
 
-            Day day = new Day(numYear, numMonth, numDay);
+            LocalDate day = LocalDate.of(numYear, numMonth + 1, numDay);
             View view;
             if(mEventDotSize==UICalendar.EVENT_DOT_SMALL)
                  view = mInflater.inflate(R.layout.day_layout_small, null);
             else
                 view = mInflater.inflate(R.layout.day_layout, null);
 
-            TextView txtDay = (TextView) view.findViewById(R.id.txt_day);
-            ImageView imgEventTag = (ImageView) view.findViewById(R.id.img_event_tag);
+            TextView txtDay = view.findViewById(R.id.txt_day);
+            ImageView imgEventTag = view.findViewById(R.id.img_event_tag);
 
-            txtDay.setText(String.valueOf(day.getDay()));
-            if (day.getMonth() != mCal.get(Calendar.MONTH)) {
+            txtDay.setText(String.valueOf(day.getDayOfMonth()));
+            if (day.getMonthValue() -1 != mCal.get(Calendar.MONTH)) {
                 txtDay.setAlpha(0.3f);
             }
 
             for (int j = 0; j < mEventList.size(); j++) {
                 Event event = mEventList.get(j);
                 if (day.getYear() == event.getYear()
-                        && day.getMonth() == event.getMonth()
-                        && day.getDay() == event.getDay()) {
+                        && day.getMonthValue() == event.getMonth()
+                        && day.getDayOfMonth() == event.getDay()) {
                     imgEventTag.setVisibility(View.VISIBLE);
                     imgEventTag.setColorFilter(event.getColor(),PorterDuff.Mode.SRC_ATOP);
                 }

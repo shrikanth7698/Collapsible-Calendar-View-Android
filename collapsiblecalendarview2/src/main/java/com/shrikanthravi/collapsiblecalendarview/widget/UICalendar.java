@@ -1,16 +1,13 @@
 package com.shrikanthravi.collapsiblecalendarview.widget;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -18,10 +15,10 @@ import android.widget.TableLayout;
 import android.widget.TextView;
 
 import com.shrikanthravi.collapsiblecalendarview.R;
-import com.shrikanthravi.collapsiblecalendarview.data.Day;
-import com.shrikanthravi.collapsiblecalendarview.listener.OnSwipeTouchListener;
 import com.shrikanthravi.collapsiblecalendarview.view.ExpandIconView;
 import com.shrikanthravi.collapsiblecalendarview.view.LockScrollView;
+
+import org.threeten.bp.LocalDate;
 
 
 public abstract class UICalendar extends LinearLayout {
@@ -79,7 +76,7 @@ public abstract class UICalendar extends LinearLayout {
     private Drawable mButtonRightDrawable =
             getResources().getDrawable(R.drawable.right_icon);
 
-    private Day mSelectedItem = null;
+    private LocalDate mSelectedItem = null;
 
     private int mButtonLeftDrawableTintColor=Color.BLACK;
     private int mButtonRightDrawableTintColor=Color.BLACK;
@@ -189,7 +186,7 @@ public abstract class UICalendar extends LinearLayout {
         setButtonLeftDrawableTintColor(attrs.getColor(R.styleable.UICalendar_buttonLeft_drawableTintColor,mButtonLeftDrawableTintColor));
         setButtonRightDrawableTintColor(attrs.getColor(R.styleable.UICalendar_buttonRight_drawableTintColor,mButtonRightDrawableTintColor));
         setExpandIconColor(attrs.getColor(R.styleable.UICalendar_expandIconColor,mExpandIconColor));
-        Day selectedItem   = null;
+        mSelectedItem   = null;
     }
 
     public void setButtonLeftDrawableTintColor(int color){
@@ -350,12 +347,12 @@ public abstract class UICalendar extends LinearLayout {
         mBtnNextWeek.setImageDrawable(buttonRightDrawable);
     }
 
-    public Day getSelectedItem() {
+    public LocalDate getSelectedItem() {
         return mSelectedItem;
     }
 
-    public void setSelectedItem(Day selectedItem) {
-        this.mSelectedItem = selectedItem;
+    public void setSelectedItem(LocalDate selectedDate) {
+        this.mSelectedItem = selectedDate;
     }
 
 

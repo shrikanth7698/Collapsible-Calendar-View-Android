@@ -9,8 +9,6 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Handler;
 import android.util.AttributeSet;
-import android.view.GestureDetector;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -23,10 +21,11 @@ import android.widget.TextView;
 
 import com.shrikanthravi.collapsiblecalendarview.R;
 import com.shrikanthravi.collapsiblecalendarview.data.CalendarAdapter;
-import com.shrikanthravi.collapsiblecalendarview.data.Day;
 import com.shrikanthravi.collapsiblecalendarview.data.Event;
 import com.shrikanthravi.collapsiblecalendarview.listener.OnSwipeTouchListener;
 import com.shrikanthravi.collapsiblecalendarview.view.ExpandIconView;
+
+import org.threeten.bp.LocalDate;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -187,9 +186,9 @@ public class CollapsibleCalendar extends UICalendar {
         // redraw all views of day
         if (mAdapter != null) {
             for (int i = 0; i < mAdapter.getCount(); i++) {
-                Day day = mAdapter.getItem(i);
+                LocalDate day = mAdapter.getItem(i);
                 View view = mAdapter.getView(i);
-                TextView txtDay = (TextView) view.findViewById(R.id.txt_day);
+                TextView txtDay = view.findViewById(R.id.txt_day);
                 txtDay.setBackgroundColor(Color.TRANSPARENT);
                 txtDay.setTextColor(getTextColor());
 
@@ -296,17 +295,17 @@ public class CollapsibleCalendar extends UICalendar {
         }
     }
 
-    public void onItemClicked(View view, Day day) {
+    public void onItemClicked(View view, LocalDate day) {
         select(day);
 
         Calendar cal = mAdapter.getCalendar();
 
         int newYear = day.getYear();
-        int newMonth = day.getMonth();
+        int newMonth = day.getMonthValue() - 1;
         int oldYear = cal.get(Calendar.YEAR);
         int oldMonth = cal.get(Calendar.MONTH);
         if (newMonth != oldMonth) {
-            cal.set(day.getYear(), day.getMonth(), 1);
+            cal.set(day.getYear(), day.getMonthValue() -1, 1);
 
             if (newYear > oldYear || newMonth > oldMonth) {
                 mCurrentWeekIndex = 0;
@@ -402,43 +401,32 @@ public class CollapsibleCalendar extends UICalendar {
         return mAdapter.getCalendar().get(Calendar.MONTH);
     }
 
-    public Day getSelectedDay() {
+    public LocalDate getSelectedDay() {
         if (getSelectedItem()==null){
             Calendar cal = Calendar.getInstance();
             int day = cal.get(Calendar.DAY_OF_MONTH);
             int month = cal.get(Calendar.MONTH);
             int year = cal.get(Calendar.YEAR);
-            return new Day(
+            return LocalDate.of(
                     year,
                     month+1,
                     day);
         }
-        return new Day(
-                getSelectedItem().getYear(),
-                getSelectedItem().getMonth(),
-                getSelectedItem().getDay());
+        return getSelectedItem();
     }
 
-    public boolean isSelectedDay(Day day) {
-        return day != null
-                && getSelectedItem() != null
-                && day.getYear() == getSelectedItem().getYear()
-                && day.getMonth() == getSelectedItem().getMonth()
-                && day.getDay() == getSelectedItem().getDay();
+    public boolean isSelectedDay(LocalDate day) {
+        return day != null && day == getSelectedItem();
     }
 
-    public boolean isToady(Day day) {
-        Calendar todayCal = Calendar.getInstance();
-        return day != null
-                && day.getYear() == todayCal.get(Calendar.YEAR)
-                && day.getMonth() == todayCal.get(Calendar.MONTH)
-                && day.getDay() == todayCal.get(Calendar.DAY_OF_MONTH);
+    public boolean isToady(LocalDate day) {
+        return day == LocalDate.now();
     }
 
     public int getSelectedItemPosition() {
         int position = -1;
         for (int i = 0; i < mAdapter.getCount(); i++) {
-            Day day = mAdapter.getItem(i);
+            LocalDate day = mAdapter.getItem(i);
 
             if (isSelectedDay(day)) {
                 position = i;
@@ -451,7 +439,7 @@ public class CollapsibleCalendar extends UICalendar {
     public int getTodayItemPosition() {
         int position = -1;
         for (int i = 0; i < mAdapter.getCount(); i++) {
-            Day day = mAdapter.getItem(i);
+            LocalDate day = mAdapter.getItem(i);
 
             if (isToady(day)) {
                 position = i;
@@ -589,8 +577,8 @@ public class CollapsibleCalendar extends UICalendar {
         }
     }
 
-    public void select(Day day) {
-        setSelectedItem(new Day(day.getYear(), day.getMonth(), day.getDay()));
+    public void select(LocalDate day) {
+        setSelectedItem(day);
 
         redraw();
 
