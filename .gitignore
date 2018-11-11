@@ -7,3 +7,10 @@
 /build
 /captures
 .externalNativeBuild
+.idea/vcs.xml
+.idea/runConfigurations.xml
+.idea/modules.xml
+.idea/misc.xml
+.idea/gradle.xml
+.idea/dictionaries/shrikanthravi.xml
+.idea/caches/build_file_checksums.ser
