@@ -298,7 +298,7 @@ public class CollapsibleCalendar extends UICalendar {
         LocalDate cal = mAdapter.getCalendar();
 
         int newYear = day.getYear();
-        int newMonth = day.getMonthValue() - 1;
+        int newMonth = day.getMonthValue();
         int oldYear = cal.getYear();
         int oldMonth = cal.getMonthValue();
         if (newMonth != oldMonth) {

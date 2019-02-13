@@ -120,7 +120,7 @@ public class CalendarAdapter {
                     numMonth = JANUARY.getValue();
                 } else {
                     numYear = year;
-                    numMonth = month;
+                    numMonth = month + 1;
                 }
                 numDay = i - lastDayOfMonth;
             } else {
