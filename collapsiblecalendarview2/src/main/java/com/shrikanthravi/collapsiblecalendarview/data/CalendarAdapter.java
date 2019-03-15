@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.jakewharton.threetenabp.AndroidThreeTen;
 import com.shrikanthravi.collapsiblecalendarview.R;
 import com.shrikanthravi.collapsiblecalendarview.widget.UICalendar;
 
@@ -34,7 +35,8 @@ public class CalendarAdapter {
     private List<Event>     mEventList = new ArrayList<>();
 
     public CalendarAdapter(Context context) {
-        this.mCal = LocalDate.now().withDayOfMonth(1);
+        AndroidThreeTen.init(context);
+        this.mCal = LocalDate. now().withDayOfMonth(1);
         mInflater = LayoutInflater.from(context);
 
         refresh();
