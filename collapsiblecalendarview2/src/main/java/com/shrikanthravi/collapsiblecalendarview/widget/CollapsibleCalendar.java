@@ -314,6 +314,7 @@ public class CollapsibleCalendar extends UICalendar {
     public void addEventTag(int numYear, int numMonth, int numDay,int color) {
         mAdapter.addEvent(new Event(numYear, numMonth, numDay,color));
 
+
         reload();
     }
 
@@ -598,6 +599,14 @@ public class CollapsibleCalendar extends UICalendar {
 
         // triggered when the week position are changed.
         void onWeekChange(int position);
+    }
+
+    public void setExpandIconVisible(boolean visible){
+        if(visible){
+            expandIconView.setVisibility(VISIBLE);
+        }else {
+            expandIconView.setVisibility(GONE);
+        }
     }
 
 

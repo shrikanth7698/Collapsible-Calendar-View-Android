@@ -23,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
         getWindow().setStatusBarColor(getResources().getColor(R.color.google_red));
 
         CollapsibleCalendar collapsibleCalendar = findViewById(R.id.collapsibleCalendarView);
+        //To hide or show expand icon
+        collapsibleCalendar.setExpandIconVisible(true);
         Calendar today=new GregorianCalendar();
         collapsibleCalendar.addEventTag(today.get(Calendar.YEAR),today.get(Calendar.MONTH),today.get(Calendar.DAY_OF_MONTH));
         today.add(Calendar.DATE,1);
