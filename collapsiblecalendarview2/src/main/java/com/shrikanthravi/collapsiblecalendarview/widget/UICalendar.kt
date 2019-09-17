@@ -110,7 +110,7 @@ abstract class UICalendar constructor(context: Context, attrs: AttributeSet? = n
     /**
      * This can be used to defined the left icon drawable other than predefined icon
      */
-    var buttonLeftDrawable = resources.getDrawable(R.drawable.left_icon)
+    var buttonLeftDrawable = resources.getDrawable(com.shrikanthravi.collapsiblecalendarview.R.drawable.left_icon)
         set(buttonLeftDrawable) {
             field = buttonLeftDrawable
             mBtnPrevMonth.setImageDrawable(buttonLeftDrawable)
@@ -120,7 +120,7 @@ abstract class UICalendar constructor(context: Context, attrs: AttributeSet? = n
     /**
      *  This can be used to set the drawable for the right icon, other than predefined icon
      */
-    var buttonRightDrawable = resources.getDrawable(R.drawable.right_icon)
+    var buttonRightDrawable = resources.getDrawable(com.shrikanthravi.collapsiblecalendarview.R.drawable.right_icon)
         set(buttonRightDrawable) {
             field = buttonRightDrawable
             mBtnNextMonth.setImageDrawable(buttonRightDrawable)
@@ -139,7 +139,34 @@ abstract class UICalendar constructor(context: Context, attrs: AttributeSet? = n
             redraw()
 
         }
+    private fun getSwipe(context:Context): OnSwipeTouchListener {
+        return object: OnSwipeTouchListener(context){
+            override fun onSwipeTop() {
+                expandIconView.performClick()
 
+            }
+
+            override fun onSwipeLeft() {
+                if (state == STATE_COLLAPSED) {
+                    mBtnNextWeek.performClick()
+                } else if (state == STATE_EXPANDED) {
+                    mBtnNextMonth.performClick()
+                }
+            }
+
+            override fun onSwipeRight() {
+                if (state == STATE_COLLAPSED) {
+                    mBtnPrevWeek.performClick()
+                } else if (state == STATE_EXPANDED) {
+                    mBtnPrevMonth.performClick()
+                }
+            }
+
+            override fun onSwipeBottom() {
+                expandIconView.performClick()
+            }
+        }
+    }
     init {
         mInflater = LayoutInflater.from(context)
 
@@ -161,23 +188,9 @@ abstract class UICalendar constructor(context: Context, attrs: AttributeSet? = n
         mScrollViewBody = rootView.findViewById(R.id.scroll_view_body)
         expandIconView = rootView.findViewById(R.id.expandIcon)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            mScrollViewBody.setOnTouchListener(object: OnSwipeTouchListener(context){
-                override fun onSwipeRight() {
-                    mBtnNextMonth.performClick()
-                }
-
-                override fun onSwipeLeft() {
-                    mBtnPrevMonth.performClick()
-                }
-
-                override fun onSwipeTop() {
-                    expandIconView.performClick()
-                }
-
-                override fun onSwipeBottom() {
-                    expandIconView.performClick()
-                }
-            })
+            mLayoutRoot.setOnTouchListener(getSwipe(context));
+            mScrollViewBody.setOnTouchListener(getSwipe(context))
+            mScrollViewBody.setParams(getSwipe(context))
         }
         val attributes = context.theme.obtainStyledAttributes(
                 attrs, R.styleable.UICalendar, defStyleAttr, 0)

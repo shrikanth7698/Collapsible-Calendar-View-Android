@@ -24,7 +24,7 @@ abstract class OnSwipeTouchListener(ctx: Context) : OnTouchListener {
     private inner class GestureListener : SimpleOnGestureListener() {
 
         override fun onDown(e: MotionEvent): Boolean {
-            return true
+            return false
         }
 
         override fun onFling(e1: MotionEvent, e2: MotionEvent, velocityX: Float, velocityY: Float): Boolean {

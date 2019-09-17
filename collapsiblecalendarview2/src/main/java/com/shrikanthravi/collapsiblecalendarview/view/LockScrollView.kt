@@ -12,16 +12,24 @@ import android.widget.ScrollView
 
 class LockScrollView : ScrollView {
     constructor(context: Context) : super(context) {}
-
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {}
-
     constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {}
-
-    override fun onInterceptTouchEvent(ev: MotionEvent): Boolean {
-        return true
+    var swipeTouchListener: OnSwipeTouchListener? = null
+    fun setParams(swipeTouchListener: OnSwipeTouchListener){
+        this.swipeTouchListener = swipeTouchListener
     }
 
-    @SuppressLint("ClickableViewAccessibility")
+    override fun onInterceptTouchEvent(ev: MotionEvent): Boolean {
+        swipeTouchListener?.onTouch(this, ev).let {
+            if(it==null){
+                return false;
+            }
+            else {
+                return it
+            }
+        }
+    }
+
     override fun onTouchEvent(ev: MotionEvent): Boolean {
         super.onTouchEvent(ev)
         return true
