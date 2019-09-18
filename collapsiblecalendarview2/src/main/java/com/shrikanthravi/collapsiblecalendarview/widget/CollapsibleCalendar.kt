@@ -17,24 +17,21 @@ import android.widget.LinearLayout
 import android.widget.TableLayout
 import android.widget.TableRow
 import android.widget.TextView
-
 import com.shrikanthravi.collapsiblecalendarview.R
 import com.shrikanthravi.collapsiblecalendarview.data.CalendarAdapter
 import com.shrikanthravi.collapsiblecalendarview.data.Day
 import com.shrikanthravi.collapsiblecalendarview.data.Event
 import com.shrikanthravi.collapsiblecalendarview.view.ExpandIconView
-
 import java.text.SimpleDateFormat
-import java.util.Calendar
+import java.util.*
 
-class CollapsibleCalendar : UICalendar,View.OnClickListener {
+class CollapsibleCalendar : UICalendar, View.OnClickListener {
     override fun onClick(view: View?) {
         view?.let {
-            mListener.let { mListener->
-                if(mListener==null){
+            mListener.let { mListener ->
+                if (mListener == null) {
                     expandIconView.performClick()
-                }
-                else{
+                } else {
                     mListener.onClickListener()
                 }
             }
@@ -76,7 +73,10 @@ class CollapsibleCalendar : UICalendar,View.OnClickListener {
     val month: Int
         get() = mAdapter!!.calendar.get(Calendar.MONTH)
 
-    val selectedDay: Day
+    /**
+     * The date has been selected and can be used on Calender Listener
+     */
+    var selectedDay: Day? = null
         get() {
             if (selectedItem == null) {
                 val cal = Calendar.getInstance()
@@ -92,6 +92,10 @@ class CollapsibleCalendar : UICalendar,View.OnClickListener {
                     selectedItem!!.year,
                     selectedItem!!.month,
                     selectedItem!!.day)
+        }
+        set(value: Day?) {
+            field = value
+            redraw()
         }
 
     val selectedItemPosition: Int
@@ -225,16 +229,28 @@ class CollapsibleCalendar : UICalendar,View.OnClickListener {
                     txtDay.setBackgroundDrawable(selectedItemBackgroundDrawable)
                     txtDay.setTextColor(selectedItemTextColor)
                 }
+
+                if (isGreaterThanDesiredMonth(day) || isLessThanDesiredMonth(day)) {
+
+                }
             }
         }
     }
 
+    private fun isLessThanDesiredMonth(day: Day?): Boolean {
+        return false
+    }
+
+    private fun isGreaterThanDesiredMonth(day: Day?): Boolean {
+        return false
+    }
+
     override fun reload() {
-        mAdapter?.let {mAdapter->
+        mAdapter?.let { mAdapter ->
             mAdapter.refresh()
 
             // reset UI
-            val dateFormat = SimpleDateFormat("MMM yyyy")
+            val dateFormat = SimpleDateFormat(datePattern)
             dateFormat.timeZone = mAdapter.calendar.timeZone
             mTxtTitle.text = dateFormat.format(mAdapter.calendar.time)
             mTableHead.removeAllViews()
@@ -275,7 +291,14 @@ class CollapsibleCalendar : UICalendar,View.OnClickListener {
                         0,
                         ViewGroup.LayoutParams.WRAP_CONTENT,
                         1f)
-                view.setOnClickListener { v -> onItemClicked(v, mAdapter!!.getItem(i)) }
+                params.let { params ->
+                    if (params!=null && (mAdapter.getItem(i).diff < params.prevDays || mAdapter.getItem(i).diff > params.nextDaysBlocked)){
+                        view.isClickable = false
+                    }
+                    else {
+                        view.setOnClickListener { v -> onItemClicked(v, mAdapter.getItem(i)) }
+                    }
+                }
                 rowCurrent.addView(view)
             }
 
@@ -402,7 +425,7 @@ class CollapsibleCalendar : UICalendar,View.OnClickListener {
     /**
      * collapse in milliseconds
      */
-    fun collapse(duration: Int) {
+    open fun collapse(duration: Int) {
 
         if (state == STATE_EXPANDED) {
             state = STATE_PROCESSING
@@ -450,11 +473,12 @@ class CollapsibleCalendar : UICalendar,View.OnClickListener {
         }
 
         expandIconView.setState(ExpandIconView.MORE, true)
+        reload()
     }
 
     private fun collapseTo(index: Int) {
         var index = index
-        if (state == UICalendar.Companion.STATE_COLLAPSED) {
+        if (state == STATE_COLLAPSED) {
             if (index == -1) {
                 index = mTableBody.childCount - 1
             }
@@ -513,6 +537,7 @@ class CollapsibleCalendar : UICalendar,View.OnClickListener {
         }
 
         expandIconView.setState(ExpandIconView.LESS, true)
+        reload()
     }
 
     fun select(day: Day) {
@@ -567,6 +592,11 @@ class CollapsibleCalendar : UICalendar,View.OnClickListener {
         }
     }
 
+    data class Params(val prevDays: Int, val nextDaysBlocked: Int)
 
+    var params: Params? = null
+        set(value) {
+            field = value
+        }
 }
 

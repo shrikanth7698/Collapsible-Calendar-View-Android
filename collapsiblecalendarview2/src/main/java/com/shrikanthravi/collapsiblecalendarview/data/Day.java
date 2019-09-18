@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.Calendar;
+import java.util.Date;
+
 /**
  * Created by shrikanthravi on 06/03/18.
  */
@@ -63,5 +66,15 @@ public class Day implements Parcelable{
         }
     };
 
+    public long toUnixTime(){
+        Date date = new Date(this.mYear, this.mMonth, this.mDay);
+        return date.getTime();
+    }
 
+    public int getDiff(){
+        Calendar todayCal = Calendar.getInstance();
+        Day day = new Day(todayCal.get(Calendar.YEAR), todayCal.get(Calendar.MONTH),todayCal.get(Calendar.DAY_OF_MONTH));
+        return (int)( (this.toUnixTime() - day.toUnixTime())
+                / (1000 * 60 * 60 * 24) );
+    }
 }

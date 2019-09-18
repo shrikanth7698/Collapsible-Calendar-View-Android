@@ -1,86 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layout_root"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:background="@android:color/white">
+    android:background="@android:color/white"
+    android:orientation="vertical">
 
     <RelativeLayout
+        android:id="@+id/layout_btn_group_month"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/btn_prev_month"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_margin="2dp"
+            app:srcCompat="@drawable/left_icon" />
+
+        <ImageView
+            android:id="@+id/btn_next_month"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_margin="2dp"
+            app:srcCompat="@drawable/right_icon" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/layout_btn_group_week"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/btn_prev_week"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_margin="2dp"
+            app:srcCompat="@drawable/left_icon" />
+
+        <ImageView
+            android:id="@+id/btn_next_week"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_margin="2dp"
+            app:srcCompat="@drawable/right_icon" />
+    </RelativeLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <RelativeLayout
-            android:id="@+id/layout_btn_group_month"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:id="@+id/btn_prev_month"
-
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="2dp"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                app:srcCompat="@drawable/left_icon" />
-
-            <ImageView
-                android:id="@+id/btn_next_month"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="2dp"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                app:srcCompat="@drawable/right_icon" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/layout_btn_group_week"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:id="@+id/btn_prev_week"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="2dp"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                app:srcCompat="@drawable/left_icon" />
-
-            <ImageView
-                android:id="@+id/btn_next_week"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="2dp"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                app:srcCompat="@drawable/right_icon" />
-
-        </RelativeLayout>
 
         <TextView
             android:id="@+id/txt_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
             android:padding="8dp"
             android:textColor="@android:color/black"
             android:textSize="16sp"
-            android:text="Jun 2015" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Jun 2015" />
 
-    </RelativeLayout>
+        <com.shrikanthravi.collapsiblecalendarview.view.ExpandIconView
+            android:id="@+id/expandIcon"
+            android:layout_width="16dp"
+            android:layout_height="30dp"
+            android:visibility="visible"
+            app:eiv_animationDuration="300"
+            app:eiv_color="#000"
+            app:eiv_colorIntermediate="@android:color/black"
+            app:eiv_colorLess="@android:color/black"
+            app:eiv_colorMore="@android:color/black"
+            app:eiv_roundedCorners="true"
+            app:eiv_switchColor="true"
+            app:layout_constraintStart_toEndOf="@id/txt_title"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TableLayout
         android:id="@+id/table_head"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content">
 
     </TableLayout>
-
     <com.shrikanthravi.collapsiblecalendarview.view.LockScrollView
         android:id="@+id/scroll_view_body"
         android:layout_width="match_parent"
@@ -90,25 +108,12 @@
         <TableLayout
             android:id="@+id/table_body"
             android:layout_width="match_parent"
-            android:isScrollContainer="true"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:isScrollContainer="true">
 
         </TableLayout>
 
     </com.shrikanthravi.collapsiblecalendarview.view.LockScrollView>
-    <com.shrikanthravi.collapsiblecalendarview.view.ExpandIconView
-        android:layout_width="30dp"
-        android:layout_gravity="center"
-        android:visibility="visible"
-        app:eiv_animationDuration="300"
-        app:eiv_color="#000"
-        app:eiv_colorLess="@android:color/black"
-        app:eiv_colorMore="@android:color/black"
-        app:eiv_colorIntermediate="@android:color/black"
-        app:eiv_roundedCorners="true"
-        app:eiv_switchColor="true"
-        android:id="@+id/expandIcon"
-        android:layout_height="30dp"/>
 
 
 </LinearLayout>

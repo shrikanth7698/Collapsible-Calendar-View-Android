@@ -1,23 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scrollView"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.shrikanthravi.collapsiblecalendarview.MainActivity">
-    <com.shrikanthravi.collapsiblecalendarview.widget.CollapsibleCalendar
-        android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_height="wrap_content"
-        app:primaryColor="@color/google_red"
-        app:textColor="@android:color/white"
-        app:selectedItem_textColor="@color/google_red"
-        android:id="@+id/collapsibleCalendarView"
-        app:todayItem_textColor="@android:color/white"
-        app:todayItem_background="@drawable/circle_white_stroke_background"
-        app:selectedItem_background="@drawable/circle_white_solid_background"
-        app:buttonLeft_drawableTintColor="@android:color/white"
-        app:buttonRight_drawableTintColor="@android:color/white"
-        app:expandIconColor="@android:color/white"
-        app:eventColor="@android:color/white"
-        ></com.shrikanthravi.collapsiblecalendarview.widget.CollapsibleCalendar>
-</RelativeLayout>
+        tools:context="com.shrikanthravi.collapsiblecalendarview.MainActivity"
+        android:id="@+id/main_layout"
+        android:layout_width="match_parent">
+
+        <com.shrikanthravi.collapsiblecalendarview.widget.CollapsibleCalendar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:primaryColor="@color/google_red"
+            app:textColor="@android:color/white"
+            app:selectedItem_textColor="@color/google_red"
+            android:id="@+id/collapsibleCalendarView"
+            app:todayItem_textColor="@android:color/white"
+            app:todayItem_background="@drawable/circle_white_stroke_background"
+            app:selectedItem_background="@drawable/circle_white_solid_background"
+            app:buttonLeft_drawableTintColor="@android:color/white"
+            app:buttonRight_drawableTintColor="@android:color/white"
+            app:expandIconColor="@android:color/white"
+            app:eventColor="@android:color/white"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+        <TextView
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_date"
+            app:layout_constraintTop_toBottomOf="@id/collapsibleCalendarView"
+            tools:text="hi"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

@@ -2,18 +2,14 @@ package com.shrikanthravi.collapsiblecalendarview.widget
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.res.ColorStateList
 import android.content.res.TypedArray
 import android.graphics.Color
 import android.graphics.PorterDuff
-import android.graphics.Typeface
-import android.graphics.drawable.Drawable
-import android.os.Build
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
-
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.shrikanthravi.collapsiblecalendarview.R
 import com.shrikanthravi.collapsiblecalendarview.data.Day
 import com.shrikanthravi.collapsiblecalendarview.view.ExpandIconView
@@ -24,7 +20,8 @@ import com.shrikanthravi.collapsiblecalendarview.view.OnSwipeTouchListener
 abstract class UICalendar constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : ScrollView(context, attrs, defStyleAttr) {
 
     constructor(context: Context) : this(context, null, 0)
-    constructor(context: Context, attrs: AttributeSet?):this(context, attrs, 0)
+    constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
+
     protected var mInflater: LayoutInflater
 
     // UI
@@ -40,7 +37,12 @@ abstract class UICalendar constructor(context: Context, attrs: AttributeSet? = n
     protected var mBtnPrevWeek: ImageView
     protected var mBtnNextWeek: ImageView
     protected var expandIconView: ExpandIconView
+    protected var clEntireTextView: ConstraintLayout
+    var datePattern = "MMMM"
+        set(value: String) {
+            field = value
 
+        }
     // Attributes
     var isShowWeek = true
         set(showWeek) {
@@ -56,6 +58,11 @@ abstract class UICalendar constructor(context: Context, attrs: AttributeSet? = n
         set(firstDayOfWeek) {
             field = firstDayOfWeek
             reload()
+        }
+    var hideArrow = true
+        set(value: Boolean) {
+            field = value
+            hideButton()
         }
     open var state = STATE_COLLAPSED
         set(state) {
@@ -110,7 +117,7 @@ abstract class UICalendar constructor(context: Context, attrs: AttributeSet? = n
     /**
      * This can be used to defined the left icon drawable other than predefined icon
      */
-    var buttonLeftDrawable = resources.getDrawable(com.shrikanthravi.collapsiblecalendarview.R.drawable.left_icon)
+    var buttonLeftDrawable = resources.getDrawable(R.drawable.left_icon)
         set(buttonLeftDrawable) {
             field = buttonLeftDrawable
             mBtnPrevMonth.setImageDrawable(buttonLeftDrawable)
@@ -120,7 +127,7 @@ abstract class UICalendar constructor(context: Context, attrs: AttributeSet? = n
     /**
      *  This can be used to set the drawable for the right icon, other than predefined icon
      */
-    var buttonRightDrawable = resources.getDrawable(com.shrikanthravi.collapsiblecalendarview.R.drawable.right_icon)
+    var buttonRightDrawable = resources.getDrawable(R.drawable.right_icon)
         set(buttonRightDrawable) {
             field = buttonRightDrawable
             mBtnNextMonth.setImageDrawable(buttonRightDrawable)
@@ -139,11 +146,12 @@ abstract class UICalendar constructor(context: Context, attrs: AttributeSet? = n
             redraw()
 
         }
-    private fun getSwipe(context:Context): OnSwipeTouchListener {
-        return object: OnSwipeTouchListener(context){
-            override fun onSwipeTop() {
-                expandIconView.performClick()
 
+    fun getSwipe(context: Context): OnSwipeTouchListener {
+        return object : OnSwipeTouchListener(context) {
+            override fun onSwipeTop() {
+                if (state == STATE_EXPANDED)
+                    expandIconView.performClick()
             }
 
             override fun onSwipeLeft() {
@@ -163,10 +171,12 @@ abstract class UICalendar constructor(context: Context, attrs: AttributeSet? = n
             }
 
             override fun onSwipeBottom() {
-                expandIconView.performClick()
+                if (state == STATE_COLLAPSED)
+                    expandIconView.performClick()
             }
         }
     }
+
     init {
         mInflater = LayoutInflater.from(context)
 
@@ -187,11 +197,13 @@ abstract class UICalendar constructor(context: Context, attrs: AttributeSet? = n
         mBtnNextWeek = rootView.findViewById(R.id.btn_next_week)
         mScrollViewBody = rootView.findViewById(R.id.scroll_view_body)
         expandIconView = rootView.findViewById(R.id.expandIcon)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            mLayoutRoot.setOnTouchListener(getSwipe(context));
-            mScrollViewBody.setOnTouchListener(getSwipe(context))
-            mScrollViewBody.setParams(getSwipe(context))
-        }
+        clEntireTextView = rootView.findViewById(R.id.cl_title)
+        clEntireTextView.setOnTouchListener(View.OnTouchListener { view, motionEvent ->
+            expandIconView.performClick()
+        })
+        mLayoutRoot.setOnTouchListener(getSwipe(context));
+        mScrollViewBody.setOnTouchListener(getSwipe(context))
+        mScrollViewBody.setParams(getSwipe(context))
         val attributes = context.theme.obtainStyledAttributes(
                 attrs, R.styleable.UICalendar, defStyleAttr, 0)
         setAttributes(attributes)
@@ -200,12 +212,26 @@ abstract class UICalendar constructor(context: Context, attrs: AttributeSet? = n
 
     protected abstract fun redraw()
     protected abstract fun reload()
+    private fun hideButton() {
+        mBtnNextWeek.visibility = View.GONE
+        mBtnPrevWeek.visibility = View.GONE
+        mBtnNextMonth.visibility = View.GONE
+        mBtnPrevMonth.visibility = View.GONE
+    }
 
     protected fun setAttributes(attrs: TypedArray) {
         // set attributes by the values from XML
         //setStyle(attrs.getInt(R.styleable.UICalendar_style, mStyle));
         isShowWeek = attrs.getBoolean(R.styleable.UICalendar_showWeek, isShowWeek)
         firstDayOfWeek = attrs.getInt(R.styleable.UICalendar_firstDayOfWeek, firstDayOfWeek)
+        hideArrow = attrs.getBoolean(R.styleable.UICalendar_hideArrows, hideArrow)
+        datePattern = attrs.getString(R.styleable.UICalendar_datePattern).let {
+            if (it == null)
+                datePattern
+            else {
+                it
+            }
+        }
         state = attrs.getInt(R.styleable.UICalendar_state, state)
 
         textColor = attrs.getColor(R.styleable.UICalendar_textColor, textColor)
