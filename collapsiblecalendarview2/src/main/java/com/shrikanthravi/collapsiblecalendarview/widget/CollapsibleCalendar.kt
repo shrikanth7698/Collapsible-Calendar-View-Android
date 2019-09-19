@@ -26,6 +26,19 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class CollapsibleCalendar : UICalendar, View.OnClickListener {
+    override fun changeToToday() {
+        val calendar = Calendar.getInstance()
+        var calenderAdapter = CalendarAdapter(context, calendar);
+        calenderAdapter.mEventList = mAdapter!!.mEventList
+        calenderAdapter.setFirstDayOfWeek(firstDayOfWeek)
+        var today = GregorianCalendar()
+        this.selectedItem = null
+        this.selectedItemPosition = -1
+        this.selectedDay = Day(today.get(Calendar.YEAR), today.get(Calendar.MONTH), today.get(Calendar.DAY_OF_MONTH))
+        mCurrentWeekIndex = suitableRowIndex
+        setAdapter(calenderAdapter)
+    }
+
     override fun onClick(view: View?) {
         view?.let {
             mListener.let { mListener ->
@@ -98,7 +111,7 @@ class CollapsibleCalendar : UICalendar, View.OnClickListener {
             redraw()
         }
 
-    val selectedItemPosition: Int
+    var selectedItemPosition: Int = -1
         get() {
             var position = -1
             for (i in 0 until mAdapter!!.count) {
@@ -108,6 +121,9 @@ class CollapsibleCalendar : UICalendar, View.OnClickListener {
                     position = i
                     break
                 }
+            }
+            if (position == -1) {
+                position = todayItemPosition
             }
             return position
         }
@@ -168,7 +184,7 @@ class CollapsibleCalendar : UICalendar, View.OnClickListener {
 
         mBtnNextWeek.setOnClickListener { nextWeek() }
 
-
+        mTodayIcon.setOnClickListener { changeToToday() }
 
         expandIconView.setState(ExpandIconView.MORE, true)
 
@@ -229,20 +245,8 @@ class CollapsibleCalendar : UICalendar, View.OnClickListener {
                     txtDay.setBackgroundDrawable(selectedItemBackgroundDrawable)
                     txtDay.setTextColor(selectedItemTextColor)
                 }
-
-                if (isGreaterThanDesiredMonth(day) || isLessThanDesiredMonth(day)) {
-
-                }
             }
         }
-    }
-
-    private fun isLessThanDesiredMonth(day: Day?): Boolean {
-        return false
-    }
-
-    private fun isGreaterThanDesiredMonth(day: Day?): Boolean {
-        return false
     }
 
     override fun reload() {
@@ -292,10 +296,9 @@ class CollapsibleCalendar : UICalendar, View.OnClickListener {
                         ViewGroup.LayoutParams.WRAP_CONTENT,
                         1f)
                 params.let { params ->
-                    if (params!=null && (mAdapter.getItem(i).diff < params.prevDays || mAdapter.getItem(i).diff > params.nextDaysBlocked)){
+                    if (params != null && (mAdapter.getItem(i).diff < params.prevDays || mAdapter.getItem(i).diff > params.nextDaysBlocked)) {
                         view.isClickable = false
-                    }
-                    else {
+                    } else {
                         view.setOnClickListener { v -> onItemClicked(v, mAdapter.getItem(i)) }
                     }
                 }
@@ -384,6 +387,37 @@ class CollapsibleCalendar : UICalendar, View.OnClickListener {
         if (mListener != null) {
             mListener!!.onMonthChange()
         }
+    }
+
+    fun nextDay() {
+        if (selectedItemPosition == mAdapter!!.count - 1) {
+            nextMonth()
+            mAdapter!!.getView(0).performClick()
+            reload()
+            mCurrentWeekIndex = 0
+            collapseTo(mCurrentWeekIndex)
+        } else {
+            mAdapter!!.getView(selectedItemPosition + 1).performClick()
+            if (((selectedItemPosition + 1 - mAdapter!!.calendar.firstDayOfWeek) / 7) > mCurrentWeekIndex) {
+                nextWeek()
+            }
+        }
+        mListener?.onDayChanged()
+    }
+
+    fun prevDay() {
+        if (selectedItemPosition == 0) {
+            prevMonth()
+            mAdapter!!.getView(mAdapter!!.count - 1).performClick()
+            reload()
+            return;
+        } else {
+            mAdapter!!.getView(selectedItemPosition - 1).performClick()
+            if (((selectedItemPosition - 1 + mAdapter!!.calendar.firstDayOfWeek) / 7) < mCurrentWeekIndex) {
+                prevWeek()
+            }
+        }
+        mListener?.onDayChanged()
     }
 
     fun prevWeek() {
@@ -582,6 +616,8 @@ class CollapsibleCalendar : UICalendar, View.OnClickListener {
         fun onWeekChange(position: Int)
 
         fun onClickListener()
+
+        fun onDayChanged()
     }
 
     fun setExpandIconVisible(visible: Boolean) {

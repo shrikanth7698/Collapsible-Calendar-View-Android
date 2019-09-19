@@ -40,11 +40,11 @@ class MainActivity : AppCompatActivity(){
         collapsibleCalendar = findViewById(R.id.collapsibleCalendarView)
         relativeLayout.setOnTouchListener(object:OnSwipeTouchListener(this@MainActivity){
             override fun onSwipeRight() {
-
+                collapsibleCalendar.nextDay()
             }
 
             override fun onSwipeLeft() {
-
+                collapsibleCalendar.prevDay()
             }
 
             override fun onSwipeTop() {
@@ -64,9 +64,14 @@ class MainActivity : AppCompatActivity(){
         val today = GregorianCalendar()
         collapsibleCalendar.addEventTag(today.get(Calendar.YEAR), today.get(Calendar.MONTH), today.get(Calendar.DAY_OF_MONTH))
         today.add(Calendar.DATE, 1)
+        collapsibleCalendar.selectedDay = Day(today.get(Calendar.YEAR), today.get(Calendar.MONTH), today.get(Calendar.DAY_OF_MONTH))
         collapsibleCalendar.addEventTag(today.get(Calendar.YEAR), today.get(Calendar.MONTH), today.get(Calendar.DAY_OF_MONTH), Color.BLUE)
-        collapsibleCalendar.params = CollapsibleCalendar.Params(-10, 90)
+        collapsibleCalendar.params = CollapsibleCalendar.Params(-100, 100)
         collapsibleCalendar.setCalendarListener(object : CollapsibleCalendar.CalendarListener {
+            override fun onDayChanged() {
+
+            }
+
             override fun onClickListener() {
                 if(collapsibleCalendar.expanded){
                     collapsibleCalendar.collapse(400)

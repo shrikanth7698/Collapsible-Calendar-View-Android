@@ -15,6 +15,7 @@ import com.shrikanthravi.collapsiblecalendarview.data.Day
 import com.shrikanthravi.collapsiblecalendarview.view.ExpandIconView
 import com.shrikanthravi.collapsiblecalendarview.view.LockScrollView
 import com.shrikanthravi.collapsiblecalendarview.view.OnSwipeTouchListener
+import java.util.*
 
 @SuppressLint("ClickableViewAccessibility")
 abstract class UICalendar constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : ScrollView(context, attrs, defStyleAttr) {
@@ -38,6 +39,7 @@ abstract class UICalendar constructor(context: Context, attrs: AttributeSet? = n
     protected var mBtnNextWeek: ImageView
     protected var expandIconView: ExpandIconView
     protected var clEntireTextView: ConstraintLayout
+    protected var mTodayIcon : ImageView
     var datePattern = "MMMM"
         set(value: String) {
             field = value
@@ -186,7 +188,7 @@ abstract class UICalendar constructor(context: Context, attrs: AttributeSet? = n
         // init UI
         mLayoutRoot = rootView.findViewById(R.id.layout_root)
         mTxtTitle = rootView.findViewById(R.id.txt_title)
-
+        mTodayIcon = rootView.findViewById(R.id.today_icon)
         mTableHead = rootView.findViewById(R.id.table_head)
         mTableBody = rootView.findViewById(R.id.table_body)
         mLayoutBtnGroupMonth = rootView.findViewById(R.id.layout_btn_group_month)
@@ -244,9 +246,9 @@ abstract class UICalendar constructor(context: Context, attrs: AttributeSet? = n
                 R.styleable.UICalendar_todayItem_textColor, todayItemTextColor)
         var todayItemBackgroundDrawable = attrs.getDrawable(R.styleable.UICalendar_todayItem_background)
         if (todayItemBackgroundDrawable != null) {
-            todayItemBackgroundDrawable = todayItemBackgroundDrawable
+            this.todayItemBackgroundDrawable = todayItemBackgroundDrawable
         } else {
-            todayItemBackgroundDrawable = this.todayItemBackgroundDrawable
+            this.todayItemBackgroundDrawable = todayItemBackgroundDrawable
         }
 
         selectedItemTextColor = attrs.getColor(
@@ -297,6 +299,8 @@ abstract class UICalendar constructor(context: Context, attrs: AttributeSet? = n
         this.mExpandIconColor = color
         expandIconView.setColor(color)
     }
+
+    abstract fun changeToToday()
 
     companion object {
 
