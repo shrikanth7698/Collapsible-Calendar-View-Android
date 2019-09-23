@@ -103,7 +103,7 @@ abstract class UICalendar constructor(context: Context, attrs: AttributeSet? = n
             field = todayItemTextColor
             redraw()
         }
-    var todayItemBackgroundDrawable = resources.getDrawable(com.shrikanthravi.collapsiblecalendarview.R.drawable.circle_black_stroke_background)
+    var todayItemBackgroundDrawable = resources.getDrawable(R.drawable.circle_black_stroke_background)
         set(todayItemBackgroundDrawable) {
             field = todayItemBackgroundDrawable
             redraw()
@@ -113,7 +113,7 @@ abstract class UICalendar constructor(context: Context, attrs: AttributeSet? = n
             field = selectedItemTextColor
             redraw()
         }
-    var selectedItemBackgroundDrawable = resources.getDrawable(com.shrikanthravi.collapsiblecalendarview.R.drawable.circle_black_solid_background)
+    var selectedItemBackgroundDrawable = resources.getDrawable(R.drawable.circle_black_solid_background)
         set(selectedItemBackground) {
             field = selectedItemBackground
             redraw()
@@ -122,7 +122,7 @@ abstract class UICalendar constructor(context: Context, attrs: AttributeSet? = n
     /**
      * This can be used to defined the left icon drawable other than predefined icon
      */
-    var buttonLeftDrawable = resources.getDrawable(com.shrikanthravi.collapsiblecalendarview.R.drawable.left_icon)
+    var buttonLeftDrawable = resources.getDrawable(R.drawable.left_icon)
         set(buttonLeftDrawable) {
             field = buttonLeftDrawable
             mBtnPrevMonth.setImageDrawable(buttonLeftDrawable)
@@ -132,7 +132,7 @@ abstract class UICalendar constructor(context: Context, attrs: AttributeSet? = n
     /**
      *  This can be used to set the drawable for the right icon, other than predefined icon
      */
-    var buttonRightDrawable = resources.getDrawable(com.shrikanthravi.collapsiblecalendarview.R.drawable.right_icon)
+    var buttonRightDrawable = resources.getDrawable(R.drawable.right_icon)
         set(buttonRightDrawable) {
             field = buttonRightDrawable
             mBtnNextMonth.setImageDrawable(buttonRightDrawable)
@@ -219,7 +219,7 @@ abstract class UICalendar constructor(context: Context, attrs: AttributeSet? = n
         mScrollViewBody.setOnTouchListener(getSwipe(context))
         mScrollViewBody.setParams(getSwipe(context))
         val attributes = context.theme.obtainStyledAttributes(
-                attrs, com.shrikanthravi.collapsiblecalendarview.R.styleable.UICalendar, defStyleAttr, 0)
+                attrs, R.styleable.UICalendar, defStyleAttr, 0)
         setAttributes(attributes)
         attributes.recycle()
     }
@@ -272,7 +272,7 @@ abstract class UICalendar constructor(context: Context, attrs: AttributeSet? = n
             selectedItemBackgroundDrawable = this.selectedItemBackgroundDrawable
         }
 
-        var buttonLeftDrawable = attrs.getDrawable(com.shrikanthravi.collapsiblecalendarview.R.styleable.UICalendar_buttonLeft_drawable)
+        var buttonLeftDrawable = attrs.getDrawable(R.styleable.UICalendar_buttonLeft_drawable)
         if (buttonLeftDrawable != null) {
             buttonLeftDrawable = buttonLeftDrawable
         } else {

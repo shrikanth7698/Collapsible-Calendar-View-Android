@@ -232,7 +232,7 @@ class CollapsibleCalendar : UICalendar, View.OnClickListener {
             for (i in 0 until mAdapter!!.count) {
                 val day = mAdapter!!.getItem(i)
                 val view = mAdapter!!.getView(i)
-                val txtDay = view.findViewById<View>(com.shrikanthravi.collapsiblecalendarview.R.id.txt_day) as TextView
+                val txtDay = view.findViewById<View>(R.id.txt_day) as TextView
                 txtDay.setBackgroundColor(Color.TRANSPARENT)
                 txtDay.setTextColor(textColor)
 
