@@ -22,9 +22,9 @@ import com.shrikanthravi.collapsiblecalendarview.data.CalendarAdapter
 import com.shrikanthravi.collapsiblecalendarview.data.Day
 import com.shrikanthravi.collapsiblecalendarview.data.Event
 import com.shrikanthravi.collapsiblecalendarview.view.ExpandIconView
+import java.text.DateFormatSymbols
 import java.text.SimpleDateFormat
 import java.util.*
-import java.text.DateFormatSymbols
 
 
 class CollapsibleCalendar : UICalendar, View.OnClickListener {
@@ -270,7 +270,7 @@ class CollapsibleCalendar : UICalendar, View.OnClickListener {
             for (i in 0..6) {
                 val view = mInflater.inflate(R.layout.layout_day_of_week, null)
                 val txtDayOfWeek = view.findViewById<View>(R.id.txt_day_of_week) as TextView
-                txtDayOfWeek.setText(DateFormatSymbols().getShortWeekdays()[(i + firstDayOfWeek) % 7])
+                txtDayOfWeek.setText(DateFormatSymbols().getShortWeekdays()[(i + firstDayOfWeek) % 7 + 1])
                 view.layoutParams = TableRow.LayoutParams(
                         0,
                         ViewGroup.LayoutParams.WRAP_CONTENT,
