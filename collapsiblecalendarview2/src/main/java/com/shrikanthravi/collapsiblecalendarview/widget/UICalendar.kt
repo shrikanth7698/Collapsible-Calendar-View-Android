@@ -16,6 +16,9 @@ import com.shrikanthravi.collapsiblecalendarview.view.ExpandIconView
 import com.shrikanthravi.collapsiblecalendarview.view.LockScrollView
 import com.shrikanthravi.collapsiblecalendarview.view.OnSwipeTouchListener
 import java.util.*
+import android.os.Build
+
+
 
 @SuppressLint("ClickableViewAccessibility")
 abstract class UICalendar constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : ScrollView(context, attrs, defStyleAttr) {
@@ -176,6 +179,15 @@ abstract class UICalendar constructor(context: Context, attrs: AttributeSet? = n
                 if (state == STATE_COLLAPSED)
                     expandIconView.performClick()
             }
+        }
+    }
+
+    fun getCurrentLocale(context: Context): Locale {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            context.resources.configuration.locales.get(0)
+        } else {
+
+            context.resources.configuration.locale
         }
     }
 
