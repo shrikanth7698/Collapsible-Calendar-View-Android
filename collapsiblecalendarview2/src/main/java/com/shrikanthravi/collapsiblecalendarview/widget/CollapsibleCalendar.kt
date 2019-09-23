@@ -24,6 +24,8 @@ import com.shrikanthravi.collapsiblecalendarview.data.Event
 import com.shrikanthravi.collapsiblecalendarview.view.ExpandIconView
 import java.text.SimpleDateFormat
 import java.util.*
+import java.text.DateFormatSymbols
+
 
 class CollapsibleCalendar : UICalendar, View.OnClickListener {
     override fun changeToToday() {
@@ -254,16 +256,13 @@ class CollapsibleCalendar : UICalendar, View.OnClickListener {
             mAdapter.refresh()
 
             // reset UI
-            val dateFormat = SimpleDateFormat(datePattern)
+            val dateFormat = SimpleDateFormat(datePattern, getCurrentLocale(context))
             dateFormat.timeZone = mAdapter.calendar.timeZone
             mTxtTitle.text = dateFormat.format(mAdapter.calendar.time)
             mTableHead.removeAllViews()
             mTableBody.removeAllViews()
 
             var rowCurrent: TableRow
-
-            // set day of week
-            val dayOfWeekIds = intArrayOf(R.string.sunday, R.string.monday, R.string.tuesday, R.string.wednesday, R.string.thursday, R.string.friday, R.string.saturday)
             rowCurrent = TableRow(context)
             rowCurrent.layoutParams = TableLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT,
@@ -271,7 +270,7 @@ class CollapsibleCalendar : UICalendar, View.OnClickListener {
             for (i in 0..6) {
                 val view = mInflater.inflate(R.layout.layout_day_of_week, null)
                 val txtDayOfWeek = view.findViewById<View>(R.id.txt_day_of_week) as TextView
-                txtDayOfWeek.setText(dayOfWeekIds[(i + firstDayOfWeek) % 7])
+                txtDayOfWeek.setText(DateFormatSymbols().getShortWeekdays()[(i + firstDayOfWeek) % 7])
                 view.layoutParams = TableRow.LayoutParams(
                         0,
                         ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -559,7 +558,7 @@ class CollapsibleCalendar : UICalendar, View.OnClickListener {
                     mScrollViewBody.requestLayout()
 
                     if (interpolatedTime == 1f) {
-                        state = UICalendar.Companion.STATE_EXPANDED
+                        state = STATE_EXPANDED
 
                         mBtnPrevMonth.isClickable = true
                         mBtnNextMonth.isClickable = true
