@@ -30,6 +30,7 @@ class LockScrollView : ScrollView {
         }
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(ev: MotionEvent): Boolean {
         super.onTouchEvent(ev)
         return true

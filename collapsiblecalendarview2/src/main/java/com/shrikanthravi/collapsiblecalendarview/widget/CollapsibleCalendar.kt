@@ -12,6 +12,7 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.view.animation.Transformation
 import android.widget.LinearLayout
 import android.widget.TableLayout
@@ -21,6 +22,7 @@ import com.shrikanthravi.collapsiblecalendarview.R
 import com.shrikanthravi.collapsiblecalendarview.data.CalendarAdapter
 import com.shrikanthravi.collapsiblecalendarview.data.Day
 import com.shrikanthravi.collapsiblecalendarview.data.Event
+import com.shrikanthravi.collapsiblecalendarview.view.BounceAnimator
 import com.shrikanthravi.collapsiblecalendarview.view.ExpandIconView
 import java.text.DateFormatSymbols
 import java.text.SimpleDateFormat
@@ -30,10 +32,10 @@ import java.util.*
 class CollapsibleCalendar : UICalendar, View.OnClickListener {
     override fun changeToToday() {
         val calendar = Calendar.getInstance()
-        var calenderAdapter = CalendarAdapter(context, calendar);
+        val calenderAdapter = CalendarAdapter(context, calendar);
         calenderAdapter.mEventList = mAdapter!!.mEventList
         calenderAdapter.setFirstDayOfWeek(firstDayOfWeek)
-        var today = GregorianCalendar()
+        val today = GregorianCalendar()
         this.selectedItem = null
         this.selectedItemPosition = -1
         this.selectedDay = Day(today.get(Calendar.YEAR), today.get(Calendar.MONTH), today.get(Calendar.DAY_OF_MONTH))
@@ -254,9 +256,15 @@ class CollapsibleCalendar : UICalendar, View.OnClickListener {
     override fun reload() {
         mAdapter?.let { mAdapter ->
             mAdapter.refresh()
-
+            val calendar = Calendar.getInstance()
+            val tempDatePattern: String
+            if (calendar.get(Calendar.YEAR) != mAdapter.calendar.get(Calendar.YEAR)) {
+                tempDatePattern = "MMMM YYYY"
+            } else {
+                tempDatePattern = datePattern
+            }
             // reset UI
-            val dateFormat = SimpleDateFormat(datePattern, getCurrentLocale(context))
+            val dateFormat = SimpleDateFormat(tempDatePattern, getCurrentLocale(context))
             dateFormat.timeZone = mAdapter.calendar.timeZone
             mTxtTitle.text = dateFormat.format(mAdapter.calendar.time)
             mTableHead.removeAllViews()
@@ -297,6 +305,7 @@ class CollapsibleCalendar : UICalendar, View.OnClickListener {
                 params.let { params ->
                     if (params != null && (mAdapter.getItem(i).diff < params.prevDays || mAdapter.getItem(i).diff > params.nextDaysBlocked)) {
                         view.isClickable = false
+                        view.alpha = 0.3f
                     } else {
                         view.setOnClickListener { v -> onItemClicked(v, mAdapter.getItem(i)) }
                     }
@@ -364,27 +373,46 @@ class CollapsibleCalendar : UICalendar, View.OnClickListener {
 
     fun prevMonth() {
         val cal = mAdapter!!.calendar
-        if (cal.get(Calendar.MONTH) == cal.getActualMinimum(Calendar.MONTH)) {
-            cal.set(cal.get(Calendar.YEAR) - 1, cal.getActualMaximum(Calendar.MONTH), 1)
-        } else {
-            cal.set(Calendar.MONTH, cal.get(Calendar.MONTH) - 1)
+        params.let {
+            if (it != null && (Calendar.getInstance().get(Calendar.YEAR) * 12 + Calendar.getInstance().get(Calendar.MONTH) + it.prevDays / 30) > (cal.get(Calendar.YEAR) * 12 + cal.get(Calendar.MONTH))) {
+                val myAnim = AnimationUtils.loadAnimation(context, R.anim.bounce)
+                val interpolator = BounceAnimator(0.1, 10.0)
+                myAnim.setInterpolator(interpolator)
+                mLayoutRoot.startAnimation(myAnim)
+                return
+            }
+            if (cal.get(Calendar.MONTH) == cal.getActualMinimum(Calendar.MONTH)) {
+                cal.set(cal.get(Calendar.YEAR) - 1, cal.getActualMaximum(Calendar.MONTH), 1)
+            } else {
+                cal.set(Calendar.MONTH, cal.get(Calendar.MONTH) - 1)
+            }
+            reload()
+            if (mListener != null) {
+                mListener!!.onMonthChange()
+            }
         }
-        reload()
-        if (mListener != null) {
-            mListener!!.onMonthChange()
-        }
+
     }
 
     fun nextMonth() {
         val cal = mAdapter!!.calendar
-        if (cal.get(Calendar.MONTH) == cal.getActualMaximum(Calendar.MONTH)) {
-            cal.set(cal.get(Calendar.YEAR) + 1, cal.getActualMinimum(Calendar.MONTH), 1)
-        } else {
-            cal.set(Calendar.MONTH, cal.get(Calendar.MONTH) + 1)
-        }
-        reload()
-        if (mListener != null) {
-            mListener!!.onMonthChange()
+        params.let {
+            if (it != null && (Calendar.getInstance().get(Calendar.YEAR) * 12 + Calendar.getInstance().get(Calendar.MONTH) + it.nextDaysBlocked / 30) < (cal.get(Calendar.YEAR) * 12 + cal.get(Calendar.MONTH))) {
+                val myAnim = AnimationUtils.loadAnimation(context, R.anim.bounce)
+                val interpolator = BounceAnimator(0.1, 10.0)
+                myAnim.setInterpolator(interpolator)
+                this.startAnimation(myAnim)
+                return
+            }
+            if (cal.get(Calendar.MONTH) == cal.getActualMaximum(Calendar.MONTH)) {
+                cal.set(cal.get(Calendar.YEAR) + 1, cal.getActualMinimum(Calendar.MONTH), 1)
+            } else {
+                cal.set(Calendar.MONTH, cal.get(Calendar.MONTH) + 1)
+            }
+            reload()
+            if (mListener != null) {
+                mListener!!.onMonthChange()
+            }
         }
     }
 
