@@ -9,6 +9,29 @@
     android:orientation="vertical">
 
     <RelativeLayout
+        android:id="@+id/layout_btn_group_week"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/btn_prev_week"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_margin="2dp"
+            app:srcCompat="@drawable/left_icon" />
+
+        <ImageView
+            android:id="@+id/btn_next_week"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="2dp"
+            app:srcCompat="@drawable/right_icon" />
+    </RelativeLayout>
+
+    <RelativeLayout
         android:id="@+id/layout_btn_group_month"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -34,93 +57,122 @@
 
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/layout_btn_group_week"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone">
-
-        <ImageView
-            android:id="@+id/btn_prev_week"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_margin="2dp"
-            app:srcCompat="@drawable/left_icon" />
-
-        <ImageView
-            android:id="@+id/btn_next_week"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_margin="2dp"
-            app:srcCompat="@drawable/right_icon" />
-    </RelativeLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_title"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="56dp"
+        android:minHeight="56dp">
 
-        <TextView
-            android:id="@+id/txt_title"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/expand_collapse"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:textColor="@android:color/black"
-            android:textSize="16sp"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center_vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/frame_today_icon"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="Jun 2015" />
+            app:layout_constraintTop_toTopOf="parent">
 
-        <com.shrikanthravi.collapsiblecalendarview.view.ExpandIconView
-            android:id="@+id/expandIcon"
-            android:layout_width="16dp"
-            android:layout_height="30dp"
-            android:visibility="visible"
-            app:eiv_animationDuration="300"
-            app:eiv_color="#000"
-            app:eiv_colorIntermediate="@android:color/black"
-            app:eiv_colorLess="@android:color/black"
-            app:eiv_colorMore="@android:color/black"
-            app:eiv_roundedCorners="true"
-            app:eiv_switchColor="true"
-            app:layout_constraintStart_toEndOf="@id/txt_title"
-            app:layout_constraintTop_toTopOf="parent" />
-        <ImageView
-            android:id="@+id/today_icon"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            <TextView
+                android:id="@+id/txt_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-medium"
+                android:padding="8dp"
+                android:textColor="@android:color/black"
+                android:textSize="20sp"
+                tools:text="Jun 2015" />
+
+            <com.shrikanthravi.collapsiblecalendarview.view.ExpandIconView
+                android:id="@+id/expandIcon"
+                android:layout_width="16dp"
+                android:layout_height="30dp"
+                android:visibility="visible"
+                app:eiv_animationDuration="300"
+                app:eiv_color="#000"
+                app:eiv_colorIntermediate="@android:color/black"
+                app:eiv_colorLess="@android:color/black"
+                app:eiv_colorMore="@android:color/black"
+                app:eiv_roundedCorners="true"
+                app:eiv_switchColor="true" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/frame_filter_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:src="@drawable/calender_icon"
-            android:layout_marginEnd="16dp"/>
+            tools:visibility="visible">
+
+            <ImageView
+                android:id="@+id/filter_icon"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:gravity="center"
+                android:src="@drawable/options" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/frame_today_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center"
+            android:paddingStart="24dp"
+            android:paddingEnd="24dp"
+            app:layout_constraintEnd_toStartOf="@id/frame_filter_icon">
+
+            <ImageView
+                android:id="@+id/today_icon"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:gravity="center_horizontal"
+                android:src="@drawable/today" />
+
+        </RelativeLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <TableLayout
-        android:id="@+id/table_head"
+    <com.shrikanthravi.collapsiblecalendarview.view.BounceScrollView
+        android:id="@+id/bounce_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
-    </TableLayout>
-    <com.shrikanthravi.collapsiblecalendarview.view.LockScrollView
-        android:id="@+id/scroll_view_body"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scrollbars="none">
-
-        <TableLayout
-            android:id="@+id/table_body"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:isScrollContainer="true">
+            android:orientation="vertical">
+            <TableLayout
+                android:id="@+id/table_head"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-        </TableLayout>
+            </TableLayout>
+            <com.shrikanthravi.collapsiblecalendarview.view.LockScrollView
+                android:id="@+id/scroll_view_body"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="none">
 
-    </com.shrikanthravi.collapsiblecalendarview.view.LockScrollView>
+                <TableLayout
+                    android:id="@+id/table_body"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:orientation="horizontal"
+                    android:isScrollContainer="true">
+
+                </TableLayout>
+
+            </com.shrikanthravi.collapsiblecalendarview.view.LockScrollView>
+        </LinearLayout>
+    </com.shrikanthravi.collapsiblecalendarview.view.BounceScrollView>
 
 
 </LinearLayout>

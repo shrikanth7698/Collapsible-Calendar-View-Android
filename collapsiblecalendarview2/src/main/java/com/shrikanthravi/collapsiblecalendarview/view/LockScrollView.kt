@@ -4,7 +4,9 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
 import android.view.MotionEvent
+import android.widget.HorizontalScrollView
 import android.widget.ScrollView
+import androidx.core.widget.NestedScrollView
 
 /**
  * Created by shrikanthravi on 07/03/18.
@@ -30,7 +32,6 @@ class LockScrollView : ScrollView {
         }
     }
 
-    @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(ev: MotionEvent): Boolean {
         super.onTouchEvent(ev)
         return true

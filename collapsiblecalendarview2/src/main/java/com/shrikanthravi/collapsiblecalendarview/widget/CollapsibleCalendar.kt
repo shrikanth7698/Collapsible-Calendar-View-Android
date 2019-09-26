@@ -7,32 +7,37 @@ package com.shrikanthravi.collapsiblecalendarview.widget
 
 import android.content.Context
 import android.graphics.Color
+import android.graphics.drawable.Drawable
+import android.icu.util.TimeUnit
 import android.os.Handler
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
-import android.view.animation.AnimationUtils
 import android.view.animation.Transformation
 import android.widget.LinearLayout
 import android.widget.TableLayout
 import android.widget.TableRow
 import android.widget.TextView
-import com.shrikanthravi.collapsiblecalendarview.R
 import com.shrikanthravi.collapsiblecalendarview.data.CalendarAdapter
 import com.shrikanthravi.collapsiblecalendarview.data.Day
 import com.shrikanthravi.collapsiblecalendarview.data.Event
-import com.shrikanthravi.collapsiblecalendarview.view.BounceAnimator
 import com.shrikanthravi.collapsiblecalendarview.view.ExpandIconView
+import java.lang.Math.abs
 import java.text.DateFormatSymbols
 import java.text.SimpleDateFormat
 import java.util.*
 
 
+
+
 class CollapsibleCalendar : UICalendar, View.OnClickListener {
     override fun changeToToday() {
         val calendar = Calendar.getInstance()
-        val calenderAdapter = CalendarAdapter(context, calendar);
+        val calenderAdapter = CalendarAdapter(context, calendar)
+        this.params?.let {
+            calenderAdapter.setParams(CalendarAdapter.Params(it.eventColor, it.eventSize))
+        }
         calenderAdapter.mEventList = mAdapter!!.mEventList
         calenderAdapter.setFirstDayOfWeek(firstDayOfWeek)
         val today = GregorianCalendar()
@@ -188,7 +193,9 @@ class CollapsibleCalendar : UICalendar, View.OnClickListener {
 
         mBtnNextWeek.setOnClickListener { nextWeek() }
 
-        mTodayIcon.setOnClickListener { changeToToday() }
+        todayFrameLayout.setOnClickListener { changeToToday() }
+
+        filterFrameLayout.setOnClickListener { filterClicked() }
 
         expandIconView.setState(ExpandIconView.MORE, true)
 
@@ -201,9 +208,15 @@ class CollapsibleCalendar : UICalendar, View.OnClickListener {
             }
         }
 
+        linearExpandCollapse.setOnClickListener { expandIconView.performClick() }
+
         this.post { collapseTo(mCurrentWeekIndex) }
 
 
+    }
+
+    private fun filterClicked() {
+        mListener?.onFilterClick()
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -234,7 +247,7 @@ class CollapsibleCalendar : UICalendar, View.OnClickListener {
             for (i in 0 until mAdapter!!.count) {
                 val day = mAdapter!!.getItem(i)
                 val view = mAdapter!!.getView(i)
-                val txtDay = view.findViewById<View>(R.id.txt_day) as TextView
+                val txtDay = view.findViewById<View>(com.shrikanthravi.collapsiblecalendarview.R.id.txt_day) as TextView
                 txtDay.setBackgroundColor(Color.TRANSPARENT)
                 txtDay.setTextColor(textColor)
 
@@ -276,8 +289,8 @@ class CollapsibleCalendar : UICalendar, View.OnClickListener {
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT)
             for (i in 0..6) {
-                val view = mInflater.inflate(R.layout.layout_day_of_week, null)
-                val txtDayOfWeek = view.findViewById<View>(R.id.txt_day_of_week) as TextView
+                val view = mInflater.inflate(com.shrikanthravi.collapsiblecalendarview.R.layout.layout_day_of_week, null)
+                val txtDayOfWeek = view.findViewById<View>(com.shrikanthravi.collapsiblecalendarview.R.id.txt_day_of_week) as TextView
                 txtDayOfWeek.setText(DateFormatSymbols().getShortWeekdays()[(i + firstDayOfWeek) % 7 + 1])
                 view.layoutParams = TableRow.LayoutParams(
                         0,
@@ -374,11 +387,12 @@ class CollapsibleCalendar : UICalendar, View.OnClickListener {
     fun prevMonth() {
         val cal = mAdapter!!.calendar
         params.let {
-            if (it != null && (Calendar.getInstance().get(Calendar.YEAR) * 12 + Calendar.getInstance().get(Calendar.MONTH) + it.prevDays / 30) > (cal.get(Calendar.YEAR) * 12 + cal.get(Calendar.MONTH))) {
-                val myAnim = AnimationUtils.loadAnimation(context, R.anim.bounce)
-                val interpolator = BounceAnimator(0.1, 10.0)
-                myAnim.setInterpolator(interpolator)
-                mLayoutRoot.startAnimation(myAnim)
+            if (it != null && (Calendar.getInstance().get(Calendar.YEAR) * 12 + Calendar.getInstance().get(Calendar.MONTH) + it.prevDays.toFloat() / 30 +1) > (cal.get(Calendar.YEAR) * 12 + cal.get(Calendar.MONTH)).toFloat()) {
+//                val myAnim = AnimationUtils.loadAnimation(context, R.anim.bounce)
+//                val interpolator = BounceAnimator(0.1, 100.0)
+//                myAnim.setInterpolator(interpolator)
+//                mLayoutRoot.startAnimation(myAnim)
+                bounceScrollView.isMoved = true
                 return
             }
             if (cal.get(Calendar.MONTH) == cal.getActualMinimum(Calendar.MONTH)) {
@@ -397,11 +411,12 @@ class CollapsibleCalendar : UICalendar, View.OnClickListener {
     fun nextMonth() {
         val cal = mAdapter!!.calendar
         params.let {
-            if (it != null && (Calendar.getInstance().get(Calendar.YEAR) * 12 + Calendar.getInstance().get(Calendar.MONTH) + it.nextDaysBlocked / 30) < (cal.get(Calendar.YEAR) * 12 + cal.get(Calendar.MONTH))) {
-                val myAnim = AnimationUtils.loadAnimation(context, R.anim.bounce)
-                val interpolator = BounceAnimator(0.1, 10.0)
-                myAnim.setInterpolator(interpolator)
-                this.startAnimation(myAnim)
+            if (it != null && (Calendar.getInstance().get(Calendar.YEAR) * 12 + Calendar.getInstance().get(Calendar.MONTH) + it.nextDaysBlocked / 30.toFloat() -1 ) < (cal.get(Calendar.YEAR) * 12 + cal.get(Calendar.MONTH)).toFloat()) {
+//                val myAnim = AnimationUtils.loadAnimation(context, R.anim.bounce)
+//                val interpolator = BounceAnimator(0.1, 100.0)
+//                myAnim.setInterpolator(interpolator)
+//                this.startAnimation(myAnim)
+                bounceScrollView.isMoved = true
                 return
             }
             if (cal.get(Calendar.MONTH) == cal.getActualMaximum(Calendar.MONTH)) {
@@ -463,6 +478,7 @@ class CollapsibleCalendar : UICalendar, View.OnClickListener {
             nextMonth()
         } else {
             mCurrentWeekIndex++
+
             collapseTo(mCurrentWeekIndex)
         }
     }
@@ -522,7 +538,7 @@ class CollapsibleCalendar : UICalendar, View.OnClickListener {
                     }
 
                     if (interpolatedTime == 1f) {
-                        state = UICalendar.Companion.STATE_COLLAPSED
+                        state = STATE_COLLAPSED
 
                         mBtnPrevWeek.isClickable = true
                         mBtnNextWeek.isClickable = true
@@ -645,6 +661,8 @@ class CollapsibleCalendar : UICalendar, View.OnClickListener {
         fun onClickListener()
 
         fun onDayChanged()
+
+        fun onFilterClick()
     }
 
     fun setExpandIconVisible(visible: Boolean) {
@@ -655,11 +673,51 @@ class CollapsibleCalendar : UICalendar, View.OnClickListener {
         }
     }
 
-    data class Params(val prevDays: Int, val nextDaysBlocked: Int)
+    /**
+     *  Idea: The idea behind creating params class instead of attrs, is that it can be maintained easily
+     *  prevDays - To block all the days after a certain interval - It has to be negative
+     *  TODO: To check the same in future
+     *  nextDaysBlocked - To block all the days after a certain days in future (it has to be positive)
+     *  filter to enable the filter for the events, we can change the events
+     *  TODO: we need to reload after filter is successful but this would be part of the main UI
+     *  eventColor - To set the color of the main event
+     *  eventSize - To get the size of the icons, we will be getting it from user
+     */
+    data class Params(val prevDays: Int,
+                      val nextDaysBlocked: Int,
+                      val filterAvailable: Boolean,
+                      val eventColor: Int,
+                      val eventSize: Int,
+                      val todayDrawable: Drawable? = null,
+                      val selectedDrawable: Drawable? = null)
 
     var params: Params? = null
         set(value) {
             field = value
+            value?.let {
+                if (it.filterAvailable) {
+                    filterFrameLayout.visibility = View.VISIBLE
+                }
+                mAdapter?.let {
+                    it.setParams(CalendarAdapter.Params(value.eventColor, value.eventSize))
+                    reload()
+                }
+                params?.selectedDrawable?.let {
+                    selectedItemBackgroundDrawable = it
+                }
+                params?.todayDrawable?.let {
+                    todayItemBackgroundDrawable = it
+                }
+            }
         }
+
+    companion object {
+        fun daysBetween(startDate: Calendar, endDate: Calendar): Long {
+            val end = endDate.timeInMillis
+            val start = startDate.timeInMillis
+            val differenceMillis = abs(end - start)
+            return (differenceMillis / (1000*60*60*24))
+        }
+    }
 }
 

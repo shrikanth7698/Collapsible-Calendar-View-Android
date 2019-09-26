@@ -1,32 +1,25 @@
 package com.shrikanthravi.collapsiblecalendarview
 
 import android.graphics.Color
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.MotionEvent
 import android.view.View
-import android.widget.RelativeLayout
 import android.widget.ScrollView
 import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.shrikanthravi.collapsiblecalendarview.data.Day
+import com.shrikanthravi.collapsiblecalendarview.drawables.CircleDrawable
 import com.shrikanthravi.collapsiblecalendarview.view.OnSwipeTouchListener
-
 import com.shrikanthravi.collapsiblecalendarview.widget.CollapsibleCalendar
-import com.shrikanthravi.collapsiblecalendarview.widget.UICalendar
-
-import java.util.Calendar
-import java.util.Date
-import java.util.GregorianCalendar
+import java.util.*
 
 
-class MainActivity : AppCompatActivity(){
-    companion object{
+class MainActivity : AppCompatActivity() {
+    companion object {
         var TAG = "MainActivity";
     }
 
-    lateinit var collapsibleCalendar:CollapsibleCalendar
+    lateinit var collapsibleCalendar: CollapsibleCalendar
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,7 +31,7 @@ class MainActivity : AppCompatActivity(){
         var textView = findViewById<TextView>(R.id.tv_date)
 
         collapsibleCalendar = findViewById(R.id.collapsibleCalendarView)
-        relativeLayout.setOnTouchListener(object:OnSwipeTouchListener(this@MainActivity){
+        relativeLayout.setOnTouchListener(object : OnSwipeTouchListener(this@MainActivity) {
             override fun onSwipeRight() {
                 collapsibleCalendar.nextDay()
             }
@@ -48,13 +41,13 @@ class MainActivity : AppCompatActivity(){
             }
 
             override fun onSwipeTop() {
-                if(collapsibleCalendar.expanded){
+                if (collapsibleCalendar.expanded) {
                     collapsibleCalendar.collapse(400)
                 }
             }
 
             override fun onSwipeBottom() {
-                if(!collapsibleCalendar.expanded){
+                if (!collapsibleCalendar.expanded) {
                     collapsibleCalendar.expand(400)
                 }
             }
@@ -66,19 +59,25 @@ class MainActivity : AppCompatActivity(){
         today.add(Calendar.DATE, 1)
         collapsibleCalendar.selectedDay = Day(today.get(Calendar.YEAR), today.get(Calendar.MONTH), today.get(Calendar.DAY_OF_MONTH))
         collapsibleCalendar.addEventTag(today.get(Calendar.YEAR), today.get(Calendar.MONTH), today.get(Calendar.DAY_OF_MONTH), Color.BLUE)
-        collapsibleCalendar.params = CollapsibleCalendar.Params(-100, 100)
+        collapsibleCalendar.params = CollapsibleCalendar.Params(-60,
+                180,
+                true,
+                Color.BLUE,
+                4,
+                CircleDrawable(context = this).setParams(CircleDrawable.Params(Color.parseColor("#50C2FF"), 24)).getCircle(),
+                CircleDrawable(context = this).setParams(CircleDrawable.Params(Color.parseColor("#50C2FF".toTransparentColor(24)), 24)).getCircle()
+        )
         collapsibleCalendar.setCalendarListener(object : CollapsibleCalendar.CalendarListener {
+            override fun onFilterClick() {
+                Toast.makeText(this@MainActivity, "onFilterClicked", Toast.LENGTH_LONG).show()
+            }
+
             override fun onDayChanged() {
 
             }
 
             override fun onClickListener() {
-                if(collapsibleCalendar.expanded){
-                    collapsibleCalendar.collapse(400)
-                }
-                else{
-                    collapsibleCalendar.expand(400)
-                }
+
             }
 
             override fun onDaySelect() {
