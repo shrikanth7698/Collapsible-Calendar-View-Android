@@ -2,8 +2,8 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="30dp"
+    android:layout_height="30dp"
     android:orientation="vertical"
     android:gravity="center">
 
@@ -12,7 +12,8 @@
         android:layout_width="@dimen/day_circle_width"
         android:layout_height="@dimen/day_circle_height"
         android:gravity="center"
-        android:textSize="13sp"
+        android:textSize="14sp"
+        android:fontFamily="sans-serif-medium"
         android:textColor="@android:color/black"
         android:background="@android:color/transparent" />
 

@@ -6,17 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-
 import com.shrikanthravi.collapsiblecalendarview.R
-
-import java.util.ArrayList
-import java.util.Calendar
+import com.shrikanthravi.collapsiblecalendarview.drawable.CircleDrawable
+import java.util.*
 
 /**
  * Created by shrikanthravi on 06/03/18.
  */
 
-class CalendarAdapter(context: Context, cal: Calendar) {
+class CalendarAdapter(val context: Context, cal: Calendar) {
     private var mFirstDayOfWeek = 0
     var calendar: Calendar
     private val mInflater: LayoutInflater
@@ -24,6 +22,17 @@ class CalendarAdapter(context: Context, cal: Calendar) {
     private val mItemList = ArrayList<Day>()
     private val mViewList = ArrayList<View>()
     var mEventList = ArrayList<Event>()
+
+    var params: Params? = null
+    /**
+     * Builder pattern is being used so that more things can be added at later stage
+     */
+    fun setParams(params: Params): CalendarAdapter {
+        this.params = params
+        return this
+    }
+
+    data class Params(val color: Int, val size: Int)
 
     // public methods
     val count: Int
@@ -108,7 +117,9 @@ class CalendarAdapter(context: Context, cal: Calendar) {
             val view = mInflater.inflate(R.layout.day_layout, null)
             val txtDay = view.findViewById<View>(R.id.txt_day) as TextView
             val imgEventTag = view.findViewById<View>(R.id.img_event_tag) as ImageView
-
+            params?.let {
+                imgEventTag.setImageDrawable(CircleDrawable(context).setParams(CircleDrawable.Params(it.color, it.size)).getCircle())
+            }
             txtDay.text = day.day.toString()
             if (day.month != calendar.get(Calendar.MONTH)) {
                 txtDay.alpha = 0.3f
@@ -120,7 +131,9 @@ class CalendarAdapter(context: Context, cal: Calendar) {
                         && day.month == event.month
                         && day.day == event.day) {
                     imgEventTag.visibility = View.VISIBLE
-                    imgEventTag.setColorFilter(event.color, PorterDuff.Mode.SRC_ATOP)
+                    if (params == null) {
+                        imgEventTag.setColorFilter(event.color, PorterDuff.Mode.SRC_ATOP)
+                    }
                 }
             }
 

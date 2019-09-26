@@ -12,12 +12,12 @@ import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.shrikanthravi.collapsiblecalendarview.R
 import com.shrikanthravi.collapsiblecalendarview.data.Day
-import com.shrikanthravi.collapsiblecalendarview.view.ExpandIconView
 import com.shrikanthravi.collapsiblecalendarview.view.LockScrollView
 import com.shrikanthravi.collapsiblecalendarview.view.OnSwipeTouchListener
 import java.util.*
 import android.os.Build
-
+import com.shrikanthravi.collapsiblecalendarview.view.BounceScrollView
+import com.shrikanthravi.collapsiblecalendarview.view.ExpandIconView
 
 
 @SuppressLint("ClickableViewAccessibility")
@@ -42,11 +42,13 @@ abstract class UICalendar constructor(context: Context, attrs: AttributeSet? = n
     protected var mBtnNextWeek: ImageView
     protected var expandIconView: ExpandIconView
     protected var clEntireTextView: ConstraintLayout
-    protected var mTodayIcon : ImageView
+    protected var todayFrameLayout : RelativeLayout
+    protected var filterFrameLayout: RelativeLayout
+    protected var linearExpandCollapse: LinearLayout
+    protected var bounceScrollView: BounceScrollView
     var datePattern = "MMMM"
         set(value: String) {
             field = value
-
         }
     // Attributes
     var isShowWeek = true
@@ -145,7 +147,7 @@ abstract class UICalendar constructor(context: Context, attrs: AttributeSet? = n
     private var mButtonRightDrawableTintColor = Color.BLACK
 
     private var mExpandIconColor = Color.BLACK
-    var eventColor = Color.BLACK
+    var eventColor = Color.GRAY
         private set(eventColor) {
             field = eventColor
             redraw()
@@ -198,9 +200,12 @@ abstract class UICalendar constructor(context: Context, attrs: AttributeSet? = n
         val rootView = mInflater.inflate(R.layout.widget_collapsible_calendarview, this, true)
 
         // init UI
+        bounceScrollView = rootView.findViewById(R.id.bounce_scroll_view)
         mLayoutRoot = rootView.findViewById(R.id.layout_root)
         mTxtTitle = rootView.findViewById(R.id.txt_title)
-        mTodayIcon = rootView.findViewById(R.id.today_icon)
+        todayFrameLayout = rootView.findViewById(R.id.frame_today_icon)
+        filterFrameLayout = rootView.findViewById(R.id.frame_filter_icon)
+        linearExpandCollapse = rootView.findViewById(R.id.expand_collapse)
         mTableHead = rootView.findViewById(R.id.table_head)
         mTableBody = rootView.findViewById(R.id.table_body)
         mLayoutBtnGroupMonth = rootView.findViewById(R.id.layout_btn_group_month)
@@ -267,21 +272,21 @@ abstract class UICalendar constructor(context: Context, attrs: AttributeSet? = n
                 R.styleable.UICalendar_selectedItem_textColor, selectedItemTextColor)
         var selectedItemBackgroundDrawable = attrs.getDrawable(R.styleable.UICalendar_selectedItem_background)
         if (selectedItemBackgroundDrawable != null) {
-            selectedItemBackgroundDrawable = selectedItemBackgroundDrawable
+            this.selectedItemBackgroundDrawable = selectedItemBackgroundDrawable
         } else {
             selectedItemBackgroundDrawable = this.selectedItemBackgroundDrawable
         }
 
         var buttonLeftDrawable = attrs.getDrawable(R.styleable.UICalendar_buttonLeft_drawable)
         if (buttonLeftDrawable != null) {
-            buttonLeftDrawable = buttonLeftDrawable
+            this.buttonLeftDrawable = buttonLeftDrawable
         } else {
             buttonLeftDrawable = this.buttonLeftDrawable
         }
 
         var buttonRightDrawable = attrs.getDrawable(R.styleable.UICalendar_buttonRight_drawable)
         if (buttonRightDrawable != null) {
-            buttonRightDrawable = buttonRightDrawable
+            this.buttonRightDrawable = buttonRightDrawable
         } else {
             buttonRightDrawable = this.buttonRightDrawable
         }

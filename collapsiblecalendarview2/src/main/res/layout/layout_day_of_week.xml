@@ -5,6 +5,6 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:gravity="center"
-    android:textSize="12sp"
-    android:textColor="@android:color/black"
-    android:paddingBottom="4dp" />
+    android:fontFamily="sans-serif"
+    android:textSize="13sp"
+    android:textColor="@android:color/black" />
