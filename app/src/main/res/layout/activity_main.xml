@@ -9,11 +9,11 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_height="wrap_content"
-        tools:context="com.shrikanthravi.collapsiblecalendarview.MainActivity"
+        tools:context="com.hyperexternal.collapsiblecalendarview.MainActivity"
         android:id="@+id/main_layout"
         android:layout_width="match_parent">
 
-        <com.shrikanthravi.collapsiblecalendarview.widget.CollapsibleCalendar
+        <com.hyperexternal.collapsiblecalendarview.widget.CollapsibleCalendar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:textColor="@android:color/black"

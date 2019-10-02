@@ -85,7 +85,7 @@
                 android:textSize="20sp"
                 tools:text="Jun 2015" />
 
-            <com.shrikanthravi.collapsiblecalendarview.view.ExpandIconView
+            <com.hyperexternal.collapsiblecalendarview.view.ExpandIconView
                 android:id="@+id/expandIcon"
                 android:layout_width="16dp"
                 android:layout_height="30dp"
@@ -141,7 +141,7 @@
         </RelativeLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-    <com.shrikanthravi.collapsiblecalendarview.view.BounceScrollView
+    <com.hyperexternal.collapsiblecalendarview.view.BounceScrollView
         android:id="@+id/bounce_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -155,7 +155,7 @@
                 android:layout_height="wrap_content">
 
             </TableLayout>
-            <com.shrikanthravi.collapsiblecalendarview.view.LockScrollView
+            <com.hyperexternal.collapsiblecalendarview.view.LockScrollView
                 android:id="@+id/scroll_view_body"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -170,9 +170,9 @@
 
                 </TableLayout>
 
-            </com.shrikanthravi.collapsiblecalendarview.view.LockScrollView>
+            </com.hyperexternal.collapsiblecalendarview.view.LockScrollView>
         </LinearLayout>
-    </com.shrikanthravi.collapsiblecalendarview.view.BounceScrollView>
+    </com.hyperexternal.collapsiblecalendarview.view.BounceScrollView>
 
 
 </LinearLayout>
