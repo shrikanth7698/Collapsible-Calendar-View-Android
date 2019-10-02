@@ -3,13 +3,13 @@ package com.hyperexternal.collapsiblecalendarview.view
 import android.content.Context
 import android.util.AttributeSet
 import android.view.MotionEvent
-import android.widget.ScrollView
+import androidx.core.widget.NestedScrollView
 
 /**
  * Created by shrikanthravi on 07/03/18.
  */
 
-class LockScrollView : ScrollView {
+class LockScrollView : NestedScrollView {
     constructor(context: Context) : super(context) {}
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {}
     constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {}
