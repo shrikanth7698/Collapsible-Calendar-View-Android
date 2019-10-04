@@ -45,6 +45,7 @@ class CollapsibleCalendar : UICalendar, View.OnClickListener {
         this.selectedDay = Day(today.get(Calendar.YEAR), today.get(Calendar.MONTH), today.get(Calendar.DAY_OF_MONTH))
         mCurrentWeekIndex = suitableRowIndex
         setAdapter(calenderAdapter)
+        mListener?.onTodayClick()
     }
 
     override fun onClick(view: View?) {
@@ -662,6 +663,8 @@ class CollapsibleCalendar : UICalendar, View.OnClickListener {
         fun onDayChanged()
 
         fun onFilterClick()
+
+        fun onTodayClick()
     }
 
     fun setExpandIconVisible(visible: Boolean) {

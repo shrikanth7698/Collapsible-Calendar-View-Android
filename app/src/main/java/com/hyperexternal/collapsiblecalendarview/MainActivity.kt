@@ -68,6 +68,10 @@ class MainActivity : AppCompatActivity() {
                 CircleDrawable(context = this).setParams(CircleDrawable.Params(Color.parseColor("#50C2FF".toTransparentColor(24)), 24)).getCircle()
         )
         collapsibleCalendar.setCalendarListener(object : CollapsibleCalendar.CalendarListener {
+            override fun onTodayClick() {
+
+            }
+
             override fun onFilterClick() {
                 Toast.makeText(this@MainActivity, "onFilterClicked", Toast.LENGTH_LONG).show()
             }
