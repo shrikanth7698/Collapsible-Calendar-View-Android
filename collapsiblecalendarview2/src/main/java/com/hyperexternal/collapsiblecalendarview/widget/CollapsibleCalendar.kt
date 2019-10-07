@@ -21,6 +21,7 @@ import android.widget.TextView
 import com.hyperexternal.collapsiblecalendarview.data.CalendarAdapter
 import com.hyperexternal.collapsiblecalendarview.data.Day
 import com.hyperexternal.collapsiblecalendarview.data.Event
+import com.hyperexternal.collapsiblecalendarview.dipToPixels
 import com.hyperexternal.collapsiblecalendarview.view.ExpandIconView
 import java.lang.Math.abs
 import java.text.DateFormatSymbols
@@ -514,9 +515,9 @@ class CollapsibleCalendar : UICalendar, View.OnClickListener {
 
             val index = suitableRowIndex
             mCurrentWeekIndex = index
-
+            mTableHead.setPadding(0,0,0,context.dipToPixels(6).toInt())
             val currentHeight = mInitHeight
-            val targetHeight = mTableBody.getChildAt(index).measuredHeight
+            val targetHeight = mTableBody.getChildAt(index).measuredHeight - context.dipToPixels(16).toInt()
             var tempHeight = 0
             for (i in 0 until index) {
                 tempHeight += mTableBody.getChildAt(i).measuredHeight
@@ -561,7 +562,8 @@ class CollapsibleCalendar : UICalendar, View.OnClickListener {
             }
             mCurrentWeekIndex = index
 
-            val targetHeight = mTableBody.getChildAt(index).measuredHeight
+            mTableHead.setPadding(0,0,0,context.dipToPixels(6).toInt())
+            val targetHeight = mTableBody.getChildAt(index).measuredHeight - context.dipToPixels(16).toInt()
             var tempHeight = 0
             for (i in 0 until index) {
                 tempHeight += mTableBody.getChildAt(i).measuredHeight
@@ -588,7 +590,7 @@ class CollapsibleCalendar : UICalendar, View.OnClickListener {
             mLayoutBtnGroupWeek.visibility = View.GONE
             mBtnPrevMonth.isClickable = false
             mBtnNextMonth.isClickable = false
-
+            mTableHead.setPadding(0,0,0,context.dipToPixels(30).toInt())
             val currentHeight = mScrollViewBody.measuredHeight
             val targetHeight = mInitHeight
 

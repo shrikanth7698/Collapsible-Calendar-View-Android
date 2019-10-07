@@ -21,7 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="2dp"
-        android:paddingBottom="6dp"
+        android:paddingBottom="22dp"
         android:orientation="horizontal"
         android:gravity="center">
 

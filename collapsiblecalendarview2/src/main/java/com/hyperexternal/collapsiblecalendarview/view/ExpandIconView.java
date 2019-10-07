@@ -136,7 +136,7 @@ public class ExpandIconView extends View {
         {
             paint = new Paint(ANTI_ALIAS_FLAG);
             paint.setColor(color);
-            paint.setStyle(Paint.Style.STROKE);
+            paint.setStyle(Paint.Style.FILL);
             paint.setDither(true);
             if (roundedCorners) {
                 paint.setStrokeJoin(Paint.Join.ROUND);
