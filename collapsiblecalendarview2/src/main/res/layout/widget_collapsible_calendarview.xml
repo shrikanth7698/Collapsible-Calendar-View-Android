@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layout_root"
     android:layout_width="match_parent"
+    android:paddingStart="16dp"
+    tools:paddingEnd="16dp"
     android:layout_height="wrap_content"
     android:background="@android:color/white"
     android:orientation="vertical">
@@ -80,7 +82,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-medium"
-                android:padding="8dp"
+                android:paddingStart="8dp"
+                android:paddingEnd="10dp"
                 android:textColor="@android:color/black"
                 android:textSize="20sp"
                 tools:text="Jun 2015" />
@@ -109,6 +112,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:paddingEnd="8dp"
+            android:paddingStart="12dp"
             tools:visibility="visible">
 
             <ImageView
@@ -127,8 +132,8 @@
             android:layout_centerHorizontal="true"
             android:background="?attr/selectableItemBackground"
             android:gravity="center"
-            android:paddingStart="24dp"
-            android:paddingEnd="24dp"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
             app:layout_constraintEnd_toStartOf="@id/frame_filter_icon">
 
             <ImageView
@@ -152,7 +157,9 @@
             <TableLayout
                 android:id="@+id/table_head"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:paddingTop="3dp"
+                android:paddingBottom="30dp">
 
             </TableLayout>
             <com.hyperexternal.collapsiblecalendarview.view.LockScrollView

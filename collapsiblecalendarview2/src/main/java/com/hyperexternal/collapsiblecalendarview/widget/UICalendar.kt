@@ -20,6 +20,7 @@ import com.hyperexternal.collapsiblecalendarview.view.BounceScrollView
 import com.hyperexternal.collapsiblecalendarview.view.ExpandIconView
 
 
+@Suppress("DEPRECATION")
 @SuppressLint("ClickableViewAccessibility")
 abstract class UICalendar constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : ScrollView(context, attrs, defStyleAttr) {
 
