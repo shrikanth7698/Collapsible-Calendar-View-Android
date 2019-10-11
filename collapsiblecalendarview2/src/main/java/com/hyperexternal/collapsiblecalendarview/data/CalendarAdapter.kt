@@ -2,16 +2,16 @@ package com.hyperexternal.collapsiblecalendarview.data
 
 import android.content.Context
 import android.graphics.PorterDuff
+import android.graphics.Rect
 import android.view.LayoutInflater
+import android.view.TouchDelegate
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import com.hyperexternal.collapsiblecalendarview.R
+import com.hyperexternal.collapsiblecalendarview.dipToPixels
 import com.hyperexternal.collapsiblecalendarview.drawable.CircleDrawable
 import java.util.*
-import android.view.TouchDelegate
-import android.graphics.Rect
-import com.hyperexternal.collapsiblecalendarview.dipToPixels
 
 
 /**
@@ -124,8 +124,10 @@ class CalendarAdapter(val context: Context, cal: Calendar) {
             parent.post {
                 val r = Rect()
                 txtDay.getHitRect(r)
-                r.top -= context.dipToPixels(6).toInt()
-                r.bottom += context.dipToPixels(6).toInt()
+                r.top -= context.dipToPixels(15).toInt()
+                r.bottom += context.dipToPixels(15).toInt()
+                r.left -= context.dipToPixels(15).toInt()
+                r.right += context.dipToPixels(15).toInt()
                 parent.touchDelegate = TouchDelegate(r, txtDay)
             }
             val imgEventTag = view.findViewById<View>(R.id.img_event_tag) as ImageView
