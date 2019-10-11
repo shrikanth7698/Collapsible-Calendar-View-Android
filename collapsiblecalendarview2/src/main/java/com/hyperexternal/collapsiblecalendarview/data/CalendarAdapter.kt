@@ -9,6 +9,10 @@ import android.widget.TextView
 import com.hyperexternal.collapsiblecalendarview.R
 import com.hyperexternal.collapsiblecalendarview.drawable.CircleDrawable
 import java.util.*
+import android.view.TouchDelegate
+import android.graphics.Rect
+import com.hyperexternal.collapsiblecalendarview.dipToPixels
+
 
 /**
  * Created by shrikanthravi on 06/03/18.
@@ -116,6 +120,14 @@ class CalendarAdapter(val context: Context, cal: Calendar) {
 
             val view = mInflater.inflate(R.layout.day_layout, null)
             val txtDay = view.findViewById<View>(R.id.txt_day) as TextView
+            val parent = txtDay.getParent() as View
+            parent.post {
+                val r = Rect()
+                txtDay.getHitRect(r)
+                r.top -= context.dipToPixels(6).toInt()
+                r.bottom += context.dipToPixels(6).toInt()
+                parent.touchDelegate = TouchDelegate(r, txtDay)
+            }
             val imgEventTag = view.findViewById<View>(R.id.img_event_tag) as ImageView
             params?.let {
                 imgEventTag.setImageDrawable(CircleDrawable(context).setParams(CircleDrawable.Params(it.color, it.size)).getCircle())
