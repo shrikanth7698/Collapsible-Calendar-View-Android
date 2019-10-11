@@ -329,6 +329,7 @@ class CollapsibleCalendar : UICalendar, View.OnClickListener {
 
             redraw()
             mIsWaitingForUpdate = true
+            params?.onReload?.invoke()
         }
     }
 
@@ -693,7 +694,8 @@ class CollapsibleCalendar : UICalendar, View.OnClickListener {
                       val eventColor: Int,
                       val eventSize: Int,
                       val todayDrawable: Drawable? = null,
-                      val selectedDrawable: Drawable? = null)
+                      val selectedDrawable: Drawable? = null,
+                      val onReload: (()->Unit)? = null)
 
     var params: Params? = null
         set(value) {
