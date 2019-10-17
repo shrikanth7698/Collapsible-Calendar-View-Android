@@ -39,11 +39,10 @@ class CollapsibleCalendar : UICalendar, View.OnClickListener {
         calenderAdapter.mEventList = mAdapter!!.mEventList
         calenderAdapter.setFirstDayOfWeek(firstDayOfWeek)
         val today = GregorianCalendar()
-        this.selectedItem = null
-        this.selectedItemPosition = -1
-        this.selectedDay = Day(today.get(Calendar.YEAR), today.get(Calendar.MONTH), today.get(Calendar.DAY_OF_MONTH))
+//        this.selectedDay = Day(today.get(Calendar.YEAR), today.get(Calendar.MONTH), today.get(Calendar.DAY_OF_MONTH))
         mCurrentWeekIndex = suitableRowIndex
         setAdapter(calenderAdapter)
+        select(Day(today.get(Calendar.YEAR), today.get(Calendar.MONTH), today.get(Calendar.DAY_OF_MONTH)))
         mListener?.onTodayClick()
     }
 
@@ -247,16 +246,16 @@ class CollapsibleCalendar : UICalendar, View.OnClickListener {
                 txtDay.setBackgroundColor(Color.TRANSPARENT)
                 txtDay.setTextColor(textColor)
 
+                // set today's item
+                if (isToday(day)) {
+                        txtDay.setBackgroundDrawable(todayItemBackgroundDrawable)
+                        txtDay.setTextColor(todayItemTextColor)
+                }
+
                 // set the selected item
                 if (isSelectedDay(day)) {
                     txtDay.setBackgroundDrawable(selectedItemBackgroundDrawable)
                     txtDay.setTextColor(selectedItemTextColor)
-                }
-
-                // set today's item
-                if (isToday(day)) {
-                    txtDay.setBackgroundDrawable(todayItemBackgroundDrawable)
-                    txtDay.setTextColor(todayItemTextColor)
                 }
             }
         }
