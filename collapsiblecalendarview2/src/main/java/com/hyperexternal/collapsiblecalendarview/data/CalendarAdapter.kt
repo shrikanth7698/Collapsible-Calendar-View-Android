@@ -26,7 +26,7 @@ class CalendarAdapter(val context: Context, cal: Calendar) {
 
     private val mItemList = ArrayList<Day>()
     private val mViewList = ArrayList<View>()
-    var mEventList: MutableList<Event> = mutableListOf()
+    var mEventList: MutableSet<Event> = mutableSetOf()
 
     var params: Params? = null
     /**
@@ -69,7 +69,7 @@ class CalendarAdapter(val context: Context, cal: Calendar) {
     }
 
     fun addAllEvents(eventList: MutableList<Event>) {
-        this.mEventList = eventList
+        this.mEventList = eventList.toMutableSet()
     }
 
     fun refresh() {
@@ -143,17 +143,11 @@ class CalendarAdapter(val context: Context, cal: Calendar) {
             if (day.month != calendar.get(Calendar.MONTH)) {
                 txtDay.alpha = 0.3f
             }
-
-            for (j in mEventList.indices) {
-                val event = mEventList[j]
-                if (day.year == event.year
-                        && day.month == event.month
-                        && day.day == event.day) {
-                    imgEventTag.visibility = View.VISIBLE
-                    if (params == null) {
-                        imgEventTag.setColorFilter(event.color, PorterDuff.Mode.SRC_ATOP)
-                    }
-                }
+            if (mEventList.contains(Event(day.year,day.month, day.day))) {
+                imgEventTag.visibility = View.VISIBLE
+//                if (params == null) {
+//                    //imgEventTag.setColorFilter(day.color, PorterDuff.Mode.SRC_ATOP)
+//                }
             }
 
             mItemList.add(day)
