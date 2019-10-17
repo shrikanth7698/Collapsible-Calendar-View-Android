@@ -247,16 +247,16 @@ class CollapsibleCalendar : UICalendar, View.OnClickListener {
                 txtDay.setBackgroundColor(Color.TRANSPARENT)
                 txtDay.setTextColor(textColor)
 
-                // set the selected item
-                if (isSelectedDay(day)) {
-                    txtDay.setBackgroundDrawable(selectedItemBackgroundDrawable)
-                    txtDay.setTextColor(selectedItemTextColor)
-                }
-
                 // set today's item
                 if (isToday(day)) {
                     txtDay.setBackgroundDrawable(todayItemBackgroundDrawable)
                     txtDay.setTextColor(todayItemTextColor)
+                }
+
+                // set the selected item
+                if (isSelectedDay(day)) {
+                    txtDay.setBackgroundDrawable(selectedItemBackgroundDrawable)
+                    txtDay.setTextColor(selectedItemTextColor)
                 }
             }
         }
