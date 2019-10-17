@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.TouchDelegate
 import android.view.View
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import com.hyperexternal.collapsiblecalendarview.R
 import com.hyperexternal.collapsiblecalendarview.dipToPixels
@@ -125,8 +126,8 @@ class CalendarAdapter(val context: Context, cal: Calendar) {
 
             val view = mInflater.inflate(R.layout.day_layout, null)
             val txtDay = view.findViewById<View>(R.id.txt_day) as TextView
-            val parent = txtDay.getParent() as View
-            parent.post {
+            val parent = txtDay.getParent() as View?
+            parent?.post {
                 val r = Rect()
                 txtDay.getHitRect(r)
                 r.top -= context.dipToPixels(15).toInt()
