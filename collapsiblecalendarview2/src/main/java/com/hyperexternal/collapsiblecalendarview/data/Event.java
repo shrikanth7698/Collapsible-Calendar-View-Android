@@ -1,5 +1,9 @@
 package com.hyperexternal.collapsiblecalendarview.data;
 
+import androidx.annotation.Nullable;
+
+import java.util.Objects;
+
 /**
  * Created by shrikanthravi on 06/03/18.
  */
@@ -37,5 +41,20 @@ public class Event {
 
     public int getColor() {
         return mColor;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Event event = (Event) o;
+        return mYear == event.mYear &&
+                mMonth == event.mMonth &&
+                mDay == event.mDay;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(mYear, mMonth, mDay);
     }
 }
