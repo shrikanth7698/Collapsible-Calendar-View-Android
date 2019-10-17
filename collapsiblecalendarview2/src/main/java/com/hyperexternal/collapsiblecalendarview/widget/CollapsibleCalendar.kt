@@ -27,7 +27,6 @@ import java.lang.Math.abs
 import java.text.DateFormatSymbols
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class CollapsibleCalendar : UICalendar, View.OnClickListener {
@@ -248,16 +247,16 @@ class CollapsibleCalendar : UICalendar, View.OnClickListener {
                 txtDay.setBackgroundColor(Color.TRANSPARENT)
                 txtDay.setTextColor(textColor)
 
-                // set today's item
-                if (isToday(day)) {
-                    txtDay.setBackgroundDrawable(todayItemBackgroundDrawable)
-                    txtDay.setTextColor(todayItemTextColor)
-                }
-
                 // set the selected item
                 if (isSelectedDay(day)) {
                     txtDay.setBackgroundDrawable(selectedItemBackgroundDrawable)
                     txtDay.setTextColor(selectedItemTextColor)
+                }
+
+                // set today's item
+                if (isToday(day)) {
+                    txtDay.setBackgroundDrawable(todayItemBackgroundDrawable)
+                    txtDay.setTextColor(todayItemTextColor)
                 }
             }
         }
@@ -294,6 +293,11 @@ class CollapsibleCalendar : UICalendar, View.OnClickListener {
                         ViewGroup.LayoutParams.WRAP_CONTENT,
                         1f)
                 rowCurrent.addView(view)
+                view.setOnClickListener {
+                    if (state == STATE_COLLAPSED) {
+                        mTableBody.getChildAt(mCurrentWeekIndex).findViewWithTag<View>(i).performClick()
+                    }
+                }
             }
             mTableHead.addView(rowCurrent)
 
@@ -312,6 +316,7 @@ class CollapsibleCalendar : UICalendar, View.OnClickListener {
                         0,
                         ViewGroup.LayoutParams.WRAP_CONTENT,
                         1f)
+                view.tag = i % 7
                 params.let { params ->
                     if (params != null && (mAdapter.getItem(i).diff < params.prevDays || mAdapter.getItem(i).diff > params.nextDaysBlocked)) {
                         view.isClickable = false
@@ -375,7 +380,7 @@ class CollapsibleCalendar : UICalendar, View.OnClickListener {
         reload()
     }
 
-    fun addAllEvent(eventList: List<Event>){
+    fun addAllEvent(eventList: List<Event>) {
         mAdapter!!.mEventList = eventList.toMutableSet()
         reload()
     }
@@ -390,7 +395,7 @@ class CollapsibleCalendar : UICalendar, View.OnClickListener {
     fun prevMonth() {
         val cal = mAdapter!!.calendar
         params.let {
-            if (it != null && (Calendar.getInstance().get(Calendar.YEAR) * 12 + Calendar.getInstance().get(Calendar.MONTH) + it.prevDays.toFloat() / 30 +1) > (cal.get(Calendar.YEAR) * 12 + cal.get(Calendar.MONTH)).toFloat()) {
+            if (it != null && (Calendar.getInstance().get(Calendar.YEAR) * 12 + Calendar.getInstance().get(Calendar.MONTH) + it.prevDays.toFloat() / 30 + 1) > (cal.get(Calendar.YEAR) * 12 + cal.get(Calendar.MONTH)).toFloat()) {
 //                val myAnim = AnimationUtils.loadAnimation(context, R.anim.bounce)
 //                val interpolator = BounceAnimator(0.1, 100.0)
 //                myAnim.setInterpolator(interpolator)
@@ -414,7 +419,7 @@ class CollapsibleCalendar : UICalendar, View.OnClickListener {
     fun nextMonth() {
         val cal = mAdapter!!.calendar
         params.let {
-            if (it != null && (Calendar.getInstance().get(Calendar.YEAR) * 12 + Calendar.getInstance().get(Calendar.MONTH) + it.nextDaysBlocked / 30.toFloat() -1 ) < (cal.get(Calendar.YEAR) * 12 + cal.get(Calendar.MONTH)).toFloat()) {
+            if (it != null && (Calendar.getInstance().get(Calendar.YEAR) * 12 + Calendar.getInstance().get(Calendar.MONTH) + it.nextDaysBlocked / 30.toFloat() - 1) < (cal.get(Calendar.YEAR) * 12 + cal.get(Calendar.MONTH)).toFloat()) {
 //                val myAnim = AnimationUtils.loadAnimation(context, R.anim.bounce)
 //                val interpolator = BounceAnimator(0.1, 100.0)
 //                myAnim.setInterpolator(interpolator)
@@ -517,7 +522,7 @@ class CollapsibleCalendar : UICalendar, View.OnClickListener {
 
             val index = suitableRowIndex
             mCurrentWeekIndex = index
-            mTableHead.setPadding(0,0,0,context.dipToPixels(6).toInt())
+            mTableHead.setPadding(0, 0, 0, context.dipToPixels(6).toInt())
             val currentHeight = mInitHeight
             val targetHeight = mTableBody.getChildAt(index).measuredHeight - context.dipToPixels(16).toInt()
             var tempHeight = 0
@@ -564,7 +569,7 @@ class CollapsibleCalendar : UICalendar, View.OnClickListener {
             }
             mCurrentWeekIndex = index
 
-            mTableHead.setPadding(0,0,0,context.dipToPixels(6).toInt())
+            mTableHead.setPadding(0, 0, 0, context.dipToPixels(6).toInt())
             val targetHeight = mTableBody.getChildAt(index).measuredHeight - context.dipToPixels(16).toInt()
             var tempHeight = 0
             for (i in 0 until index) {
@@ -592,7 +597,7 @@ class CollapsibleCalendar : UICalendar, View.OnClickListener {
             mLayoutBtnGroupWeek.visibility = View.GONE
             mBtnPrevMonth.isClickable = false
             mBtnNextMonth.isClickable = false
-            mTableHead.setPadding(0,0,0,context.dipToPixels(30).toInt())
+            mTableHead.setPadding(0, 0, 0, context.dipToPixels(30).toInt())
             val currentHeight = mScrollViewBody.measuredHeight
             val targetHeight = mInitHeight
 
@@ -696,7 +701,7 @@ class CollapsibleCalendar : UICalendar, View.OnClickListener {
                       val eventSize: Int,
                       val todayDrawable: Drawable? = null,
                       val selectedDrawable: Drawable? = null,
-                      val onReload: (()->Unit)? = null)
+                      val onReload: (() -> Unit)? = null)
 
     var params: Params? = null
         set(value) {
@@ -723,7 +728,7 @@ class CollapsibleCalendar : UICalendar, View.OnClickListener {
             val end = endDate.timeInMillis
             val start = startDate.timeInMillis
             val differenceMillis = abs(end - start)
-            return (differenceMillis / (1000*60*60*24))
+            return (differenceMillis / (1000 * 60 * 60 * 24))
         }
     }
 }
