@@ -375,8 +375,8 @@ class CollapsibleCalendar : UICalendar, View.OnClickListener {
         reload()
     }
 
-    fun addAllEvent(eventList: ArrayList<Event>){
-        mAdapter!!.mEventList = eventList
+    fun addAllEvent(eventList: List<Event>){
+        mAdapter!!.mEventList = eventList.toMutableList()
         reload()
     }
 

@@ -26,7 +26,7 @@ class CalendarAdapter(val context: Context, cal: Calendar) {
 
     private val mItemList = ArrayList<Day>()
     private val mViewList = ArrayList<View>()
-    var mEventList = ArrayList<Event>()
+    var mEventList: MutableList<Event> = mutableListOf()
 
     var params: Params? = null
     /**
@@ -68,7 +68,7 @@ class CalendarAdapter(val context: Context, cal: Calendar) {
         mEventList.add(event)
     }
 
-    fun addAllEvents(eventList: ArrayList<Event>){
+    fun addAllEvents(eventList: MutableList<Event>) {
         this.mEventList = eventList
     }
 
