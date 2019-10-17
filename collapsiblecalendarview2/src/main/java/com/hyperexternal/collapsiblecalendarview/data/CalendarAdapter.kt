@@ -12,6 +12,7 @@ import com.hyperexternal.collapsiblecalendarview.R
 import com.hyperexternal.collapsiblecalendarview.dipToPixels
 import com.hyperexternal.collapsiblecalendarview.drawable.CircleDrawable
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 /**
@@ -65,6 +66,10 @@ class CalendarAdapter(val context: Context, cal: Calendar) {
 
     fun addEvent(event: Event) {
         mEventList.add(event)
+    }
+
+    fun addAllEvents(eventList: ArrayList<Event>){
+        this.mEventList = eventList
     }
 
     fun refresh() {

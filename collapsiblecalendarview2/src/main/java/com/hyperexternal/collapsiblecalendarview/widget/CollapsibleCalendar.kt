@@ -27,8 +27,7 @@ import java.lang.Math.abs
 import java.text.DateFormatSymbols
 import java.text.SimpleDateFormat
 import java.util.*
-
-
+import kotlin.collections.ArrayList
 
 
 class CollapsibleCalendar : UICalendar, View.OnClickListener {
@@ -211,9 +210,6 @@ class CollapsibleCalendar : UICalendar, View.OnClickListener {
 
         linearExpandCollapse.setOnClickListener { expandIconView.performClick() }
 
-        this.post { collapseTo(mCurrentWeekIndex) }
-
-
     }
 
     private fun filterClicked() {
@@ -376,6 +372,11 @@ class CollapsibleCalendar : UICalendar, View.OnClickListener {
     fun addEventTag(numYear: Int, numMonth: Int, numDay: Int) {
         mAdapter!!.addEvent(Event(numYear, numMonth, numDay, eventColor))
 
+        reload()
+    }
+
+    fun addAllEvent(eventList: ArrayList<Event>){
+        mAdapter!!.mEventList = eventList
         reload()
     }
 
