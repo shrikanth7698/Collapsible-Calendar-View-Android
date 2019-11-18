@@ -378,7 +378,8 @@ class CollapsibleCalendar : UICalendar, View.OnClickListener {
                 val myAnim = AnimationUtils.loadAnimation(context, R.anim.bounce)
                 val interpolator = BounceAnimator(0.1, 10.0)
                 myAnim.setInterpolator(interpolator)
-                mLayoutRoot.startAnimation(myAnim)
+                mTableBody.startAnimation(myAnim)
+                mTableHead.startAnimation(myAnim)
                 return
             }
             if (cal.get(Calendar.MONTH) == cal.getActualMinimum(Calendar.MONTH)) {
@@ -401,7 +402,8 @@ class CollapsibleCalendar : UICalendar, View.OnClickListener {
                 val myAnim = AnimationUtils.loadAnimation(context, R.anim.bounce)
                 val interpolator = BounceAnimator(0.1, 10.0)
                 myAnim.setInterpolator(interpolator)
-                this.startAnimation(myAnim)
+                mTableBody.startAnimation(myAnim)
+                mTableHead.startAnimation(myAnim)
                 return
             }
             if (cal.get(Calendar.MONTH) == cal.getActualMaximum(Calendar.MONTH)) {

@@ -59,16 +59,22 @@
             app:srcCompat="@drawable/right_icon" />
     </RelativeLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:id="@+id/cl_title"
         android:layout_width="match_parent"
+        android:orientation="horizontal"
         android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/txt_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="8dp"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:layout_gravity="center"
+            android:paddingBottom="12dp"
+            android:paddingTop="10dp"
+            android:gravity="center"
             android:textColor="@android:color/black"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
@@ -77,28 +83,33 @@
 
         <com.shrikanthravi.collapsiblecalendarview.view.ExpandIconView
             android:id="@+id/expandIcon"
-            android:layout_width="16dp"
+            android:layout_width="20dp"
             android:layout_height="30dp"
             android:visibility="visible"
+            android:layout_gravity="center"
             app:eiv_animationDuration="300"
             app:eiv_color="#000"
             app:eiv_colorIntermediate="@android:color/black"
             app:eiv_colorLess="@android:color/black"
             app:eiv_colorMore="@android:color/black"
             app:eiv_roundedCorners="true"
-            app:eiv_switchColor="true"
-            app:layout_constraintStart_toEndOf="@id/txt_title"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:eiv_switchColor="true" />
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1"/>
         <ImageView
             android:id="@+id/today_icon"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:src="@drawable/calender_icon"
-            android:layout_marginEnd="16dp"/>
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:padding="10dp"
+            android:layout_gravity="center"
+            android:clickable="true"
+            android:foreground="?android:selectableItemBackgroundBorderless"
+            android:layout_marginEnd="2dp"
+            android:src="@drawable/ic_calendar" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 
     <TableLayout
         android:id="@+id/table_head"

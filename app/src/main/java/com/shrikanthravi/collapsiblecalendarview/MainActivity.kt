@@ -66,7 +66,7 @@ class MainActivity : AppCompatActivity(){
         today.add(Calendar.DATE, 1)
         collapsibleCalendar.selectedDay = Day(today.get(Calendar.YEAR), today.get(Calendar.MONTH), today.get(Calendar.DAY_OF_MONTH))
         collapsibleCalendar.addEventTag(today.get(Calendar.YEAR), today.get(Calendar.MONTH), today.get(Calendar.DAY_OF_MONTH), Color.BLUE)
-        collapsibleCalendar.params = CollapsibleCalendar.Params(-100, 100)
+        collapsibleCalendar.params = CollapsibleCalendar.Params(0, 100)
         collapsibleCalendar.setCalendarListener(object : CollapsibleCalendar.CalendarListener {
             override fun onDayChanged() {
 

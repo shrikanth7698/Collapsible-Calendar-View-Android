@@ -41,7 +41,7 @@ abstract class UICalendar constructor(context: Context, attrs: AttributeSet? = n
     protected var mBtnPrevWeek: ImageView
     protected var mBtnNextWeek: ImageView
     protected var expandIconView: ExpandIconView
-    protected var clEntireTextView: ConstraintLayout
+    protected var clEntireTextView: LinearLayout
     protected var mTodayIcon : ImageView
     var datePattern = "MMMM"
         set(value: String) {
@@ -267,9 +267,9 @@ abstract class UICalendar constructor(context: Context, attrs: AttributeSet? = n
                 R.styleable.UICalendar_selectedItem_textColor, selectedItemTextColor)
         var selectedItemBackgroundDrawable = attrs.getDrawable(R.styleable.UICalendar_selectedItem_background)
         if (selectedItemBackgroundDrawable != null) {
-            selectedItemBackgroundDrawable = selectedItemBackgroundDrawable
+            this.selectedItemBackgroundDrawable = selectedItemBackgroundDrawable
         } else {
-            selectedItemBackgroundDrawable = this.selectedItemBackgroundDrawable
+            this.selectedItemBackgroundDrawable = selectedItemBackgroundDrawable
         }
 
         var buttonLeftDrawable = attrs.getDrawable(R.styleable.UICalendar_buttonLeft_drawable)
