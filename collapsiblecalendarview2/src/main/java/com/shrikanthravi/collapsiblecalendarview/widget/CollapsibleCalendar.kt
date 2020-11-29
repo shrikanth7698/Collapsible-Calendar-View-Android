@@ -43,6 +43,10 @@ class CollapsibleCalendar : UICalendar, View.OnClickListener {
         setAdapter(calenderAdapter)
     }
 
+    fun getEvents(): ArrayList<Event> {
+        return mAdapter!!.getEvents()
+    }
+
     override fun onClick(view: View?) {
         view?.let {
             mListener.let { mListener ->
