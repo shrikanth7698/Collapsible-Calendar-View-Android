@@ -38,6 +38,10 @@ class CalendarAdapter(context: Context, cal: Calendar) {
         refresh()
     }
 
+    fun getEvents(): ArrayList<Event> {
+        return mEventList;
+    }
+
     fun getItem(position: Int): Day {
         return mItemList[position]
     }

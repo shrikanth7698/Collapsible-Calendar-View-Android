@@ -28,7 +28,7 @@
             android:id="@+id/img_event_tag"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/dot_icon"
+            app:srcCompat="@drawable/ic_calendar_event"
             android:visibility="gone" />
 
     </LinearLayout>

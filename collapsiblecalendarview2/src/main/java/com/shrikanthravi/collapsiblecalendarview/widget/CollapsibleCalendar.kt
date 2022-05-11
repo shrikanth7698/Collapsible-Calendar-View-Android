@@ -43,6 +43,10 @@ class CollapsibleCalendar : UICalendar, View.OnClickListener {
         setAdapter(calenderAdapter)
     }
 
+    fun getEvents(): ArrayList<Event> {
+        return mAdapter!!.getEvents()
+    }
+
     override fun onClick(view: View?) {
         view?.let {
             mListener.let { mListener ->
@@ -59,6 +63,7 @@ class CollapsibleCalendar : UICalendar, View.OnClickListener {
     private var mListener: CalendarListener? = null
 
     var expanded = false
+    var lockView = false
 
     private var mInitHeight = 0
 
@@ -194,10 +199,12 @@ class CollapsibleCalendar : UICalendar, View.OnClickListener {
 
 
         expandIconView.setOnClickListener {
-            if (expanded) {
-                collapse(400)
-            } else {
-                expand(400)
+            if (!lockView) {
+                if (expanded) {
+                    collapse(400)
+                } else {
+                    expand(400)
+                }
             }
         }
 
@@ -564,6 +571,10 @@ class CollapsibleCalendar : UICalendar, View.OnClickListener {
                 mListener!!.onWeekChange(mCurrentWeekIndex)
             }
         }
+    }
+
+    fun shouldLockView(locked: Boolean) {
+        lockView = locked
     }
 
     fun expand(duration: Int) {
